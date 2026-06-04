@@ -44,11 +44,21 @@ Dateien brächte keinen Nutzen.
 ## Komponenten (Aufbau oben → unten)
 
 1. **Wordmark**
-   - ASCII-Art „ultrathink" im figlet-Font *ANSI Shadow* (gefüllte Block-Buchstaben mit 3D-Schatten).
+   - ASCII-Art „ultrathink" im figlet-Font *DOS Rebel* (gefüllte Kleinbuchstaben im Retro-BBS-Look
+     aus den Block-/Schattier-Zeichen `█` und `░`).
    - Animierter Regenbogen-Gradient, der kontinuierlich durch die Buchstaben wandert
-     (`background-clip:text` + animierte `background-position`).
+     (`background-clip:text` + animierte `background-position`). **Kein** Font-Cycling (fest).
+   - **Webfont (Rendering-Korrektheit):** Die Art wird in einem self-gehosteten, auf genau die
+     drei verwendeten Glyphen (`U+0020`, `U+2588 █`, `U+2591 ░`) gesubsetteten *JetBrains Mono*
+     (`fonts/jetbrains-mono.woff2`, ~2,4 KB) gerendert. Grund: Viele System-Monospace-Fonts
+     (Windows: Consolas/Courier New) rendern `░` nicht exakt gleich breit wie `█` → die Spalten
+     verrutschen und der Schriftzug zerfranst. Self-Hosting statt CDN, weil ein Google-Fonts-Call
+     in DE/DSGVO heikel ist und um die Glyphenbreite zu garantieren. `font-display:block` vermeidet
+     ein Aufblitzen der kaputten Fallback-Darstellung.
    - „.club" als Suffix in Monospace (Courier New), rechtsbündig unter die Art gehängt,
      der Punkt grün als Akzent.
+   - Schriftgröße per `clamp()` so gekappt, dass die 96 Zeichen breite Art auf keinem Viewport
+     horizontal überläuft (verifiziert bei 1280px und 390px).
    - **Barrierefrei/SEO:** visuell verstecktes `<h1>ultrathink.club</h1>`; die ASCII-Art
      trägt `role="img"` und `aria-label="ultrathink"`, damit Screenreader und Crawler/LLMs
      den echten Namen lesen.
@@ -90,6 +100,7 @@ Dateien brächte keinen Nutzen.
 | Datei | Zweck |
 |---|---|
 | `index.html` | Die komplette Seite (HTML + inline CSS + minimal JS) |
+| `fonts/jetbrains-mono.woff2` | Self-gehosteter, gesubsetteter Webfont für den Wordmark (~2,4 KB) |
 | `CNAME` | Custom-Domain für GitHub Pages |
 | `favicon.svg` | Inline-SVG-Favicon (kleiner Regenbogen-Block) |
 | `.gitignore` | ignoriert `.superpowers/`, `.playwright-cli/` |
