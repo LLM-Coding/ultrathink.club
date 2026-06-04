@@ -48,13 +48,15 @@ Dateien brächte keinen Nutzen.
      aus den Block-/Schattier-Zeichen `█` und `░`).
    - Animierter Regenbogen-Gradient, der kontinuierlich durch die Buchstaben wandert
      (`background-clip:text` + animierte `background-position`). **Kein** Font-Cycling (fest).
-   - **Webfont (Rendering-Korrektheit):** Die Art wird in einem self-gehosteten, auf genau die
-     drei verwendeten Glyphen (`U+0020`, `U+2588 █`, `U+2591 ░`) gesubsetteten *JetBrains Mono*
-     (`fonts/jetbrains-mono.woff2`, ~2,4 KB) gerendert. Grund: Viele System-Monospace-Fonts
-     (Windows: Consolas/Courier New) rendern `░` nicht exakt gleich breit wie `█` → die Spalten
-     verrutschen und der Schriftzug zerfranst. Self-Hosting statt CDN, weil ein Google-Fonts-Call
-     in DE/DSGVO heikel ist und um die Glyphenbreite zu garantieren. `font-display:block` vermeidet
-     ein Aufblitzen der kaputten Fallback-Darstellung.
+   - **Rendering als SVG-Maske (Korrektheit):** Die Art wird **nicht** als Monospace-Text
+     gerendert, sondern als pixelgenaue **SVG-Maske** (`wordmark.svg`, ~6 KB, run-length-kodierte
+     Rechtecke aus dem DOS-Rebel-Raster; `█` voll, `░` mit `fill-opacity:0.34`). Die Maske liegt
+     über einem `<div>` mit der animierten Regenbogen-CSS-Fläche (`mask`/`-webkit-mask`,
+     `center/contain`). Grund: Text-basierte ASCII-Art driftet auf manchen Browsern/OS sub-pixel
+     (Glyph-Pixel-Snapping, durch Windows-Display-Skalierung 125/150 % verschärft) — ein zuvor
+     getesteter self-gehosteter, gesubsetteter Webfont machte zwar alle Glyphen gleich breit
+     (`space = █ = ░ = 600 Einheiten`), behob den Rasterungs-Drift aber nicht. Die SVG-Maske ist
+     vektor- und auflösungsunabhängig und damit auf jedem Browser/OS/Display identisch.
    - „.club" als Suffix in Monospace (Courier New), rechtsbündig unter die Art gehängt,
      der Punkt grün als Akzent.
    - Schriftgröße per `clamp()` so gekappt, dass die 96 Zeichen breite Art auf keinem Viewport
@@ -66,8 +68,8 @@ Dateien brächte keinen Nutzen.
 2. **Slogan-Zeile**
    - Terminal-Prompt-Optik: `~$ <slogan>` mit blinkendem Cursor.
    - **Ein** Slogan steht statisch im HTML (Fallback ohne JS).
-   - JS rotiert alle paar Sekunden durch eine Liste humorvoller Sprüche
-     (Fight-Club-Anspielung, AI-/Terminal-Witze; DE+EN gemischt).
+   - JS zeigt **einen zufälligen** Slogan pro Seitenaufruf (Fight-Club-Anspielung, AI-/Terminal-Witze;
+     DE+EN gemischt) — **keine** Rotation (subtiler).
 
 3. **Call-to-Action**
    - Button „→ Join the waitlist" verlinkt auf das externe rapidmail-Anmeldeformular.
@@ -100,7 +102,7 @@ Dateien brächte keinen Nutzen.
 | Datei | Zweck |
 |---|---|
 | `index.html` | Die komplette Seite (HTML + inline CSS + minimal JS) |
-| `fonts/jetbrains-mono.woff2` | Self-gehosteter, gesubsetteter Webfont für den Wordmark (~2,4 KB) |
+| `wordmark.svg` | Pixelgenaue SVG-Maske des „ultrathink"-Schriftzugs (DOS Rebel, ~6 KB) |
 | `CNAME` | Custom-Domain für GitHub Pages |
 | `favicon.svg` | Inline-SVG-Favicon (kleiner Regenbogen-Block) |
 | `.gitignore` | ignoriert `.superpowers/`, `.playwright-cli/` |
