@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<!-- ultrathink.club — coming soon — v0.1.0 -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ultrathink.club — an AI think-tank community · coming soon</title>
+  <meta name="description" content="ultrathink.club — an AI think-tank community. Coming soon. Join the waitlist.">
+  <meta name="theme-color" content="#0a0e14">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ultrathink.club — coming soon">
+  <meta property="og:description" content="An AI think-tank community. Coming soon — join the waitlist.">
+  <meta property="og:url" content="https://ultrathink.club/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="ultrathink.club — coming soon">
+  <meta name="twitter:description" content="An AI think-tank community. Coming soon — join the waitlist.">
+
+  <style>
+    /* Self-hosted, subset to just the block glyphs the wordmark uses (U+0020, U+2588, U+2591).
+       Self-hosting avoids a third-party CDN call (GDPR) and guarantees ░/█ render at equal
+       width — system monospace fonts on some platforms do not, which breaks the ASCII art. */
+    @font-face{
+      font-family:"UTBlocks";
+      src:url("fonts/jetbrains-mono.woff2") format("woff2");
+      font-weight:400; font-style:normal; font-display:block;
+    }
+
+    :root{
+      --bg:#0a0e14; --txt:#c9d1d9; --dim:#6e7681; --grn:#3fb950; --white:#e6edf3;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; overflow-x:hidden;
+      background:radial-gradient(900px 520px at 50% 36%,#10161f 0%,#0a0e14 70%);
+      color:var(--txt);
+      font-family:ui-monospace,"SFMono-Regular","JetBrains Mono","Fira Code",Consolas,monospace;
+      min-height:100%;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      padding:40px 12px; text-align:center;
+    }
+
+    /* visually hidden, but readable by screen readers / crawlers */
+    .sr-only{
+      position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+      overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
+    }
+
+    @keyframes flow{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+    @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+
+    .art{width:100%; max-width:1320px; display:flex; flex-direction:column; align-items:center}
+    pre.ascii{
+      margin:0; font-family:"UTBlocks",ui-monospace,monospace; font-weight:400;
+      line-height:1.04; white-space:pre; max-width:100%;
+      /* tuned so the 96-column DOS Rebel wordmark never overflows the viewport */
+      font-size:clamp(4px,1.45vw,17px);
+      background:linear-gradient(90deg,#ff5f56,#ff8e3c,#ffbd2e,#f7e463,#3fb950,#39c5cf,#58a6ff,#a371f7,#ff5f56);
+      background-size:200% auto;
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      animation:flow 7s linear infinite;
+      filter:drop-shadow(0 0 22px rgba(163,113,247,.18));
+    }
+    .suffix{
+      margin-top:6px; align-self:flex-end; margin-right:clamp(8px,4vw,46px);
+      font-family:"Courier New",ui-monospace,Consolas,monospace; font-weight:700;
+      color:var(--white); letter-spacing:1px; font-size:clamp(24px,5vw,52px);
+    }
+    .suffix .dot{color:var(--grn)}
+
+    .line{margin-top:34px; font-size:clamp(13px,2.2vw,17px); color:var(--dim); min-height:1.4em}
+    .line .p{color:var(--grn)}
+    .line .slogan{color:var(--white)}
+    .cursor{
+      display:inline-block; width:.6em; height:1.1em; background:var(--grn);
+      vertical-align:-3px; margin-left:6px; animation:blink 1.1s step-end infinite;
+    }
+
+    .cta{margin-top:42px}
+    .btn{
+      display:inline-block; font:inherit; font-size:15px; font-weight:700;
+      color:#0a0e14; background:var(--grn); text-decoration:none;
+      padding:13px 26px; border-radius:8px;
+      box-shadow:0 6px 20px rgba(63,185,80,.25);
+      transition:transform .12s, box-shadow .12s;
+    }
+    .btn:hover{transform:translateY(-2px); box-shadow:0 10px 28px rgba(63,185,80,.4)}
+    .hint{margin-top:14px; font-size:12px; color:var(--dim)}
+
+    footer{
+      position:fixed; bottom:0; left:0; right:0; margin:0 auto; width:100%; max-width:1000px;
+      padding:14px 16px; font-size:11px; color:#484f58;
+      display:flex; justify-content:space-between; gap:8px;
+    }
+    footer a{color:#6e7681; text-decoration:none}
+    footer a:hover{color:var(--txt)}
+    @media(max-width:620px){
+      footer{position:static; margin-top:50px; flex-direction:column; align-items:center}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      pre.ascii{animation:none}
+      .cursor{animation:none}
+    }
+  </style>
+</head>
+<body>
+  <h1 class="sr-only">ultrathink.club — an AI think-tank community, coming soon</h1>
+
+  <main class="art">
+<pre class="ascii" role="img" aria-label="ultrathink">            ████   █████                         █████    █████       ███             █████
+           ░░███  ░░███                         ░░███    ░░███       ░░░             ░░███
+ █████ ████ ░███  ███████   ████████   ██████   ███████   ░███████   ████  ████████   ░███ █████
+░░███ ░███  ░███ ░░░███░   ░░███░░███ ░░░░░███ ░░░███░    ░███░░███ ░░███ ░░███░░███  ░███░░███
+ ░███ ░███  ░███   ░███     ░███ ░░░   ███████   ░███     ░███ ░███  ░███  ░███ ░███  ░██████░
+ ░███ ░███  ░███   ░███ ███ ░███      ███░░███   ░███ ███ ░███ ░███  ░███  ░███ ░███  ░███░░███
+ ░░████████ █████  ░░█████  █████    ░░████████  ░░█████  ████ █████ █████ ████ █████ ████ █████
+  ░░░░░░░░ ░░░░░    ░░░░░  ░░░░░      ░░░░░░░░    ░░░░░  ░░░░ ░░░░░ ░░░░░ ░░░░ ░░░░░ ░░░░ ░░░░░</pre>
+    <div class="suffix"><span class="dot">.</span>club</div>
+  </main>
+
+  <p class="line"><span class="p">~$</span> <span class="slogan" id="slogan">an AI think-tank community — coming soon</span><span class="cursor" aria-hidden="true"></span></p>
+
+  <div class="cta">
+    <!-- TODO: replace href with the real rapidmail signup-form URL -->
+    <a class="btn" href="#" id="waitlist" rel="noopener">→ Join the waitlist</a>
+    <div class="hint">Be the first to know when the doors open.</div>
+  </div>
+
+  <footer>
+    <span>v0.1.0</span>
+    <span>Not affiliated with Anthropic · © 2026 ultrathink.club</span>
+  </footer>
+
+  <script>
+    // Progressive enhancement: rotate slogans. Page is fully readable without this.
+    (function () {
+      var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) return;
+
+      var slogans = [
+        "an AI think-tank community — coming soon",
+        "Die erste Regel des ultrathink.club: Du denkst noch eine Ebene tiefer.",
+        "Die zweite Regel des ultrathink.club: Du DENKST noch eine Ebene tiefer.",
+        "Über den ultrathink.club spricht man nicht. Man promptet ihn.",
+        "while (!agi) { think.harder(); }",
+        "Status: thinking… (extended)",
+        "404: club not found — yet.",
+        "$ sudo make community",
+        "Wir warten nicht auf AGI. Wir bauen schon mal den Club.",
+        "Noch im Kontextfenster. Bald im echten Leben.",
+        "Ein Think-Tank. Aber mit besserem WLAN.",
+        "Wo Menschen und Modelle gemeinsam überlegen.",
+        "git push origin community   # in progress",
+        "Press any key to join… (Taste kommt bald.)"
+      ];
+      var el = document.getElementById('slogan');
+      var i = 0;
+      el.style.transition = 'opacity .25s ease';
+      setInterval(function () {
+        i = (i + 1) % slogans.length;
+        el.style.opacity = '0';
+        setTimeout(function () {
+          el.textContent = slogans[i];
+          el.style.opacity = '1';
+        }, 250);
+      }, 4200);
+    })();
+  </script>
+
+  <!-- GoatCounter — privacy-friendly, cookieless analytics.
+       Note: GoatCounter publishes no stable SRI hash and updates count.js occasionally,
+       so Subresource Integrity is intentionally omitted. For SRI, self-host count.js. -->
+  <script data-goatcounter="https://ultrathink.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
