@@ -19,15 +19,6 @@
   <meta name="twitter:description" content="An AI think-tank community. Coming soon — join the waitlist.">
 
   <style>
-    /* Self-hosted, subset to just the block glyphs the wordmark uses (U+0020, U+2588, U+2591).
-       Self-hosting avoids a third-party CDN call (GDPR) and guarantees ░/█ render at equal
-       width — system monospace fonts on some platforms do not, which breaks the ASCII art. */
-    @font-face{
-      font-family:"UTBlocks";
-      src:url("fonts/jetbrains-mono.woff2") format("woff2");
-      font-weight:400; font-style:normal; font-display:block;
-    }
-
     :root{
       --bg:#0a0e14; --txt:#c9d1d9; --dim:#6e7681; --grn:#3fb950; --white:#e6edf3;
     }
@@ -53,15 +44,17 @@
     @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
 
     .art{width:100%; max-width:1320px; display:flex; flex-direction:column; align-items:center}
-    pre.ascii{
-      margin:0; font-family:"UTBlocks",ui-monospace,monospace; font-weight:400;
-      line-height:1.04; white-space:pre; max-width:100%;
-      /* tuned so the 96-column DOS Rebel wordmark never overflows the viewport */
-      font-size:clamp(4px,1.45vw,17px);
+    /* The wordmark is a pixel-perfect SVG mask (DOS Rebel "ultrathink"), filled with the
+       animated rainbow gradient. Vector + resolution-independent → identical on every
+       browser/OS/display-scaling, unlike monospace ASCII text which sub-pixel-drifts. */
+    .wordmark{
+      width:min(100%, 1180px);
+      aspect-ratio:576 / 80;
       background:linear-gradient(90deg,#ff5f56,#ff8e3c,#ffbd2e,#f7e463,#3fb950,#39c5cf,#58a6ff,#a371f7,#ff5f56);
       background-size:200% auto;
-      -webkit-background-clip:text; background-clip:text; color:transparent;
       animation:flow 7s linear infinite;
+      -webkit-mask:url("wordmark.svg") center / contain no-repeat;
+              mask:url("wordmark.svg") center / contain no-repeat;
       filter:drop-shadow(0 0 22px rgba(163,113,247,.18));
     }
     .suffix{
@@ -111,14 +104,7 @@
   <h1 class="sr-only">ultrathink.club — an AI think-tank community, coming soon</h1>
 
   <main class="art">
-<pre class="ascii" role="img" aria-label="ultrathink">            ████   █████                         █████    █████       ███             █████
-           ░░███  ░░███                         ░░███    ░░███       ░░░             ░░███
- █████ ████ ░███  ███████   ████████   ██████   ███████   ░███████   ████  ████████   ░███ █████
-░░███ ░███  ░███ ░░░███░   ░░███░░███ ░░░░░███ ░░░███░    ░███░░███ ░░███ ░░███░░███  ░███░░███
- ░███ ░███  ░███   ░███     ░███ ░░░   ███████   ░███     ░███ ░███  ░███  ░███ ░███  ░██████░
- ░███ ░███  ░███   ░███ ███ ░███      ███░░███   ░███ ███ ░███ ░███  ░███  ░███ ░███  ░███░░███
- ░░████████ █████  ░░█████  █████    ░░████████  ░░█████  ████ █████ █████ ████ █████ ████ █████
-  ░░░░░░░░ ░░░░░    ░░░░░  ░░░░░      ░░░░░░░░    ░░░░░  ░░░░ ░░░░░ ░░░░░ ░░░░ ░░░░░ ░░░░ ░░░░░</pre>
+    <div class="wordmark" role="img" aria-label="ultrathink"></div>
     <div class="suffix"><span class="dot">.</span>club</div>
   </main>
 
@@ -136,11 +122,9 @@
   </footer>
 
   <script>
-    // Progressive enhancement: rotate slogans. Page is fully readable without this.
+    // Progressive enhancement: show ONE random slogan per page load (no rotation — subtle).
+    // Without JS, the static slogan in the HTML above is shown.
     (function () {
-      var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (prefersReduced) return;
-
       var slogans = [
         "an AI think-tank community — coming soon",
         "Die erste Regel des ultrathink.club: Du denkst noch eine Ebene tiefer.",
@@ -158,16 +142,7 @@
         "Press any key to join… (Taste kommt bald.)"
       ];
       var el = document.getElementById('slogan');
-      var i = 0;
-      el.style.transition = 'opacity .25s ease';
-      setInterval(function () {
-        i = (i + 1) % slogans.length;
-        el.style.opacity = '0';
-        setTimeout(function () {
-          el.textContent = slogans[i];
-          el.style.opacity = '1';
-        }, 250);
-      }, 4200);
+      if (el) el.textContent = slogans[Math.floor(Math.random() * slogans.length)];
     })();
   </script>
 
