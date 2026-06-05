@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<!-- ultrathink.club — coming soon — v0.1.0 -->
+<!-- ultrathink.club — coming soon — v0.1.1 -->
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ultrathink.club — an AI think-tank community · coming soon</title>
-  <meta name="description" content="ultrathink.club — an AI think-tank community. Coming soon. Join the waitlist.">
+  <meta name="description" content="ultrathink.club — an AI think-tank community. Coming soon. Request access.">
   <meta name="theme-color" content="#0a0e14">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
   <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="ultrathink.club — coming soon">
-  <meta property="og:description" content="An AI think-tank community. Coming soon — join the waitlist.">
+  <meta property="og:description" content="An AI think-tank community. Coming soon — request access.">
   <meta property="og:url" content="https://ultrathink.club/">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="ultrathink.club — coming soon">
-  <meta name="twitter:description" content="An AI think-tank community. Coming soon — join the waitlist.">
+  <meta name="twitter:description" content="An AI think-tank community. Coming soon — request access.">
 
   <style>
     :root{
@@ -111,13 +111,17 @@
   <p class="line"><span class="p">~$</span> <span class="slogan" id="slogan">an AI think-tank community — coming soon</span><span class="cursor" aria-hidden="true"></span></p>
 
   <div class="cta">
-    <!-- TODO: replace href with the real rapidmail signup-form URL -->
-    <a class="btn" href="#" id="waitlist" rel="noopener">→ Join the waitlist</a>
-    <div class="hint">Be the first to know when the doors open.</div>
+    <!-- Tally access-request form. With JS, embed.js opens it as a modal
+         (data-tally-open); without JS, the href navigates to the form. -->
+    <a class="btn" href="https://tally.so/r/WOqr7j" id="waitlist"
+       data-tally-open="WOqr7j" data-tally-layout="modal"
+       data-tally-width="640" data-tally-overlay="1"
+       rel="noopener">→ Zugang anfragen</a>
+    <div class="hint">Invite-only. Sag uns in einem Satz, warum du rein willst.</div>
   </div>
 
   <footer>
-    <span>v0.1.0</span>
+    <span>v0.1.1</span>
     <span>Not affiliated with Anthropic · © 2026 ultrathink.club</span>
   </footer>
 
@@ -145,6 +149,9 @@
       if (el) el.textContent = slogans[Math.floor(Math.random() * slogans.length)];
     })();
   </script>
+
+  <!-- Tally — opens the access-request form as a modal (see CTA button). -->
+  <script async src="https://tally.so/widgets/embed.js"></script>
 
   <!-- GoatCounter — privacy-friendly, cookieless analytics.
        Note: GoatCounter publishes no stable SRI hash and updates count.js occasionally,
