@@ -1,0 +1,1495 @@
+<!doctype html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>ultrathink.club — Profilbild-Banner</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Hanken+Grotesk:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Fira+Code:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --bg: #0b0b0d;
+                --panel: #151517;
+                --panel2: #1c1c20;
+                --line: rgba(255, 255, 255, 0.08);
+                --line2: rgba(255, 255, 255, 0.16);
+                --text: #ededf0;
+                --muted: #9a9aa3;
+                --muted2: #6f6f78;
+                --rainbow: linear-gradient(
+                    90deg,
+                    #ff5470,
+                    #ff9f45,
+                    #ffe14d,
+                    #5fd97a,
+                    #46c7ff,
+                    #9d7bff,
+                    #ff6ad5
+                );
+                --radius: 14px;
+            }
+            * {
+                box-sizing: border-box;
+            }
+            html,
+            body {
+                margin: 0;
+            }
+            body {
+                background: var(--bg);
+                color: var(--text);
+                font-family: "Hanken Grotesk", sans-serif;
+                -webkit-font-smoothing: antialiased;
+                min-height: 100vh;
+                padding: 32px 20px 64px;
+            }
+            .rainbow-text {
+                background: var(--rainbow);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+            header {
+                max-width: 1080px;
+                margin: 0 auto 28px;
+            }
+            .wordmark {
+                font-family: "Bricolage Grotesque", sans-serif;
+                font-weight: 800;
+                font-size: 30px;
+                letter-spacing: -0.02em;
+                line-height: 1;
+            }
+            .wordmark .dot {
+                color: var(--text);
+            }
+            header p {
+                margin: 8px 0 0;
+                color: var(--muted);
+                font-size: 15px;
+            }
+            header .bar {
+                height: 3px;
+                width: 100%;
+                max-width: 1080px;
+                margin: 16px auto 0;
+                border-radius: 3px;
+                background: var(--rainbow);
+                opacity: 0.9;
+            }
+
+            .layout {
+                max-width: 1080px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: 1fr 380px;
+                gap: 24px;
+                align-items: start;
+            }
+            @media (max-width: 860px) {
+                .layout {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* preview */
+            .stage {
+                background:
+                    linear-gradient(45deg, #1a1a1e 25%, transparent 25%),
+                    linear-gradient(-45deg, #1a1a1e 25%, transparent 25%),
+                    linear-gradient(45deg, transparent 75%, #1a1a1e 75%),
+                    linear-gradient(-45deg, transparent 75%, #1a1a1e 75%);
+                background-size: 22px 22px;
+                background-position:
+                    0 0,
+                    0 11px,
+                    11px -11px,
+                    -11px 0;
+                background-color: #161619;
+                border: 1px solid var(--line);
+                border-radius: var(--radius);
+                padding: 28px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 14px;
+            }
+            .canvas-wrap {
+                position: relative;
+                width: 100%;
+                max-width: 420px;
+                aspect-ratio: 1/1;
+            }
+            canvas {
+                width: 100%;
+                height: 100%;
+                display: block;
+                border-radius: 8px;
+                cursor: grab;
+                touch-action: none;
+                user-select: none;
+                -webkit-user-drag: none;
+            }
+            canvas.dragging {
+                cursor: grabbing;
+            }
+            .hint {
+                color: var(--muted2);
+                font-size: 13px;
+                text-align: center;
+            }
+            .hint b {
+                color: var(--muted);
+                font-weight: 500;
+            }
+
+            /* controls */
+            .panel {
+                background: var(--panel);
+                border: 1px solid var(--line);
+                border-radius: var(--radius);
+                padding: 18px;
+                margin-bottom: 16px;
+            }
+            .panel h2 {
+                font-family: "Bricolage Grotesque", sans-serif;
+                font-weight: 600;
+                font-size: 14px;
+                margin: 0 0 14px;
+                color: var(--text);
+                letter-spacing: 0.01em;
+            }
+            .field {
+                margin-bottom: 14px;
+            }
+            .field:last-child {
+                margin-bottom: 0;
+            }
+            label.lbl {
+                display: block;
+                font-size: 12.5px;
+                color: var(--muted);
+                margin-bottom: 7px;
+            }
+            .row {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+            }
+
+            input[type="text"],
+            select {
+                width: 100%;
+                background: var(--panel2);
+                border: 1px solid var(--line);
+                color: var(--text);
+                border-radius: 9px;
+                padding: 9px 11px;
+                font-family: inherit;
+                font-size: 14px;
+                outline: none;
+            }
+            input[type="text"]:focus,
+            select:focus {
+                border-color: var(--line2);
+            }
+            select {
+                appearance: none;
+                cursor: pointer;
+            }
+
+            input[type="range"] {
+                -webkit-appearance: none;
+                width: 100%;
+                height: 4px;
+                border-radius: 4px;
+                background: var(--line2);
+                outline: none;
+                margin: 8px 0;
+            }
+            input[type="range"]::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background: #fff;
+                cursor: pointer;
+                border: 0;
+                box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+            }
+            input[type="range"]::-moz-range-thumb {
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background: #fff;
+                cursor: pointer;
+                border: 0;
+            }
+            .range-row {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+            .range-row .val {
+                font-size: 13px;
+                color: var(--text);
+                min-width: 46px;
+                text-align: right;
+                font-variant-numeric: tabular-nums;
+            }
+
+            .seg {
+                display: inline-flex;
+                width: 100%;
+                background: var(--panel2);
+                border: 1px solid var(--line);
+                border-radius: 9px;
+                padding: 3px;
+                gap: 3px;
+            }
+            .seg button {
+                flex: 1;
+                background: transparent;
+                border: 0;
+                color: var(--muted);
+                font-family: inherit;
+                font-size: 13px;
+                padding: 8px 6px;
+                border-radius: 7px;
+                cursor: pointer;
+                transition: 0.12s;
+            }
+            .seg button.on {
+                background: #2c2c32;
+                color: var(--text);
+            }
+
+            .swatches {
+                display: flex;
+                gap: 8px;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+            .swatch {
+                width: 30px;
+                height: 30px;
+                border-radius: 8px;
+                border: 1px solid var(--line2);
+                cursor: pointer;
+                padding: 0;
+            }
+            .swatch.on {
+                box-shadow:
+                    0 0 0 2px var(--bg),
+                    0 0 0 4px #fff;
+            }
+            .swatch.transp {
+                background:
+                    linear-gradient(45deg, #888 25%, transparent 25%),
+                    linear-gradient(-45deg, #888 25%, transparent 25%),
+                    linear-gradient(45deg, transparent 75%, #888 75%),
+                    linear-gradient(-45deg, transparent 75%, #888 75%);
+                background-size: 10px 10px;
+                background-position:
+                    0 0,
+                    0 5px,
+                    5px -5px,
+                    -5px 0;
+                background-color: #ddd;
+            }
+            .color-row {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+            input[type="color"] {
+                flex: 0 0 46px;
+                width: 46px;
+                height: 34px;
+                padding: 0;
+                border: 1px solid var(--line2);
+                border-radius: 8px;
+                background: none;
+                cursor: pointer;
+            }
+            .hexinput {
+                flex: 1 1 auto;
+                min-width: 0;
+            }
+
+            .btn {
+                width: 100%;
+                border: 0;
+                border-radius: 10px;
+                padding: 13px;
+                font-family: "Bricolage Grotesque", sans-serif;
+                font-weight: 600;
+                font-size: 15px;
+                cursor: pointer;
+                color: #0b0b0d;
+                background: var(--rainbow);
+            }
+            .btn:active {
+                transform: scale(0.99);
+            }
+            .btn.ghost {
+                background: var(--panel2);
+                color: var(--text);
+                border: 1px solid var(--line2);
+            }
+            .btn.ghost:hover {
+                border-color: #444;
+            }
+            .file-row {
+                display: flex;
+                gap: 10px;
+            }
+            .file-row .btn {
+                flex: 1;
+            }
+            input[type="file"] {
+                display: none;
+            }
+            .note {
+                font-size: 12px;
+                color: var(--muted2);
+                margin-top: 10px;
+                line-height: 1.5;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <div class="wordmark">
+                <span class="rainbow-text">ultrathink</span
+                ><span class="dot">.club</span>
+            </div>
+            <p>
+                Profilbild rund zuschneiden, Banner drauflegen, quadratisches
+                PNG exportieren — alles lokal im Browser.
+            </p>
+            <div class="bar"></div>
+        </header>
+
+        <div class="layout">
+            <div class="stage">
+                <div class="canvas-wrap">
+                    <canvas id="cv" width="800" height="800"></canvas>
+                </div>
+                <div class="hint" id="hint">
+                    <b>Foto auswählen</b> · dann ziehen zum Verschieben ·
+                    scrollen / Slider zum Zoomen
+                </div>
+            </div>
+
+            <div>
+                <div class="panel">
+                    <h2>Foto</h2>
+                    <div class="file-row">
+                        <button class="btn" id="pick">Foto wählen</button>
+                        <button class="btn ghost" id="clear">
+                            Zurücksetzen
+                        </button>
+                    </div>
+                    <input type="file" id="file" accept="image/*" />
+                    <div class="field" style="margin-top: 14px">
+                        <label class="lbl">Zoom</label>
+                        <div class="range-row">
+                            <input
+                                type="range"
+                                id="zoom"
+                                min="20"
+                                max="320"
+                                step="1"
+                                value="100"
+                            />
+                            <span class="val" id="zoomV">1.0×</span>
+                        </div>
+                        <button
+                            class="btn ghost"
+                            id="fit"
+                            style="
+                                margin-top: 10px;
+                                padding: 9px;
+                                font-size: 14px;
+                            "
+                        >
+                            Ganzes Bild einpassen
+                        </button>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h2>Text</h2>
+                    <div class="field">
+                        <label class="lbl">Regenbogen-Teil</label>
+                        <input type="text" id="rainbow" value="ultrathink" />
+                    </div>
+                    <div class="field">
+                        <label class="lbl">Einfarbiger Teil</label>
+                        <input type="text" id="mono" value=".club" />
+                    </div>
+                    <div class="field">
+                        <label class="lbl">Schriftart (Band)</label>
+                        <select id="font">
+                            <option value="jetbrains" selected>
+                                JetBrains Mono — Terminal
+                            </option>
+                            <option value="fira">Fira Code — Terminal</option>
+                            <option value="consolas">Consolas</option>
+                            <option value="courier">Courier New</option>
+                            <option value="menlo">Menlo / Monaco</option>
+                            <option value="mono">System-Monospace</option>
+                            <option value="bricolage">
+                                Bricolage (Standard)
+                            </option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label class="lbl">Regenbogen-Helligkeit</label>
+                        <div class="range-row">
+                            <input
+                                type="range"
+                                id="rbBright"
+                                min="35"
+                                max="92"
+                                step="1"
+                                value="80"
+                            />
+                            <span class="val" id="rbBrightV">80%</span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="lbl">.club Farbe</label>
+                        <div class="seg" id="clubSeg">
+                            <button data-v="#ffffff" class="on">Weiß</button>
+                            <button data-v="#111111">Schwarz</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h2>Banner</h2>
+                    <div class="field">
+                        <label class="lbl">Stil</label>
+                        <div class="seg" id="modeSeg">
+                            <button data-v="bottom" class="on">
+                                Banner unten
+                            </button>
+                            <button data-v="ring">Voller Ring</button>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="lbl">Bandfarbe</label>
+                        <div class="color-row">
+                            <input
+                                type="color"
+                                id="bandColor"
+                                value="#000000"
+                            />
+                            <input
+                                type="text"
+                                id="bandHex"
+                                class="hexinput"
+                                value="#000000"
+                                spellcheck="false"
+                            />
+                            <button
+                                class="btn ghost"
+                                id="bandPick"
+                                title="Farbe vom Bildschirm/Bild picken"
+                                style="
+                                    flex: 0 0 auto;
+                                    width: 40px;
+                                    padding: 0;
+                                    height: 34px;
+                                "
+                            >
+                                ⊙
+                            </button>
+                        </div>
+                        <div class="swatches" id="bandSwatches">
+                            <button
+                                class="swatch"
+                                data-c="#1c1c1c"
+                                style="background: #1c1c1c"
+                            ></button>
+                            <button
+                                class="swatch"
+                                data-c="#ffffff"
+                                style="background: #ffffff"
+                            ></button>
+                            <button
+                                class="swatch"
+                                data-c="#0b3d91"
+                                style="background: #0b3d91"
+                            ></button>
+                            <button
+                                class="swatch"
+                                data-c="#5a9e2f"
+                                style="background: #5a9e2f"
+                            ></button>
+                            <button
+                                class="swatch"
+                                data-c="#d83a2e"
+                                style="background: #d83a2e"
+                            ></button>
+                            <button
+                                class="swatch"
+                                data-c="#f3ead3"
+                                style="background: #f3ead3"
+                            ></button>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="lbl">Bogenwinkel</label>
+                        <div class="range-row">
+                            <input
+                                type="range"
+                                id="sweep"
+                                min="20"
+                                max="300"
+                                step="1"
+                                value="160"
+                            />
+                            <span class="val" id="sweepV">160°</span>
+                        </div>
+                        <button
+                            class="btn ghost"
+                            id="fitSweep"
+                            style="
+                                margin-top: 10px;
+                                padding: 9px;
+                                font-size: 14px;
+                            "
+                        >
+                            Winkel an Text anpassen
+                        </button>
+                    </div>
+                    <div class="field">
+                        <label class="lbl">Banddicke</label>
+                        <div class="range-row">
+                            <input
+                                type="range"
+                                id="thick"
+                                min="12"
+                                max="34"
+                                step="1"
+                                value="22"
+                            />
+                            <span class="val" id="thickV">22%</span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="lbl"
+                            >Text-Padding (Abstand zur Bandkante)</label
+                        >
+                        <div class="range-row">
+                            <input
+                                type="range"
+                                id="pad"
+                                min="5"
+                                max="40"
+                                step="1"
+                                value="5"
+                            />
+                            <span class="val" id="padV">5%</span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="lbl">Bogenposition (0° = unten)</label>
+                        <div class="range-row">
+                            <input
+                                type="range"
+                                id="rot"
+                                min="0"
+                                max="360"
+                                step="1"
+                                value="78"
+                            />
+                            <span class="val" id="rotV">78°</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h2>Export</h2>
+                    <div class="field">
+                        <label class="lbl">Größe (quadratisch)</label>
+                        <select id="size">
+                            <option value="400">400 × 400</option>
+                            <option value="800" selected>800 × 800</option>
+                            <option value="1200">1200 × 1200</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label class="lbl">Hintergrund</label>
+                        <div class="color-row">
+                            <input type="color" id="bgColor" value="#0b3d91" />
+                            <input
+                                type="text"
+                                id="bgHex"
+                                class="hexinput"
+                                value="#0b3d91"
+                                spellcheck="false"
+                            />
+                        </div>
+                        <div class="swatches" id="bgSwatches">
+                            <button
+                                class="swatch transp"
+                                data-c="transparent"
+                                title="Transparent"
+                            ></button>
+                            <button
+                                class="swatch"
+                                data-c="#ffffff"
+                                style="background: #ffffff"
+                            ></button>
+                            <button
+                                class="swatch"
+                                data-c="#000000"
+                                style="background: #000000"
+                            ></button>
+                            <button
+                                class="swatch"
+                                data-c="#0b3d91"
+                                style="background: #0b3d91"
+                            ></button>
+                            <button
+                                class="swatch"
+                                data-c="#5a9e2f"
+                                style="background: #5a9e2f"
+                            ></button>
+                            <button
+                                class="swatch"
+                                data-c="#ff5470"
+                                style="background: #ff5470"
+                            ></button>
+                            <button
+                                class="swatch"
+                                data-c="#f3ead3"
+                                style="background: #f3ead3"
+                            ></button>
+                        </div>
+                    </div>
+                    <button class="btn" id="download">PNG herunterladen</button>
+                    <p class="note">
+                        Klappt der Download nicht, öffne die Datei lokal im
+                        Browser (Doppelklick) statt in der eingebetteten
+                        Vorschau — dort wird das Speichern teils blockiert.
+                        LinkedIn schneidet das Bild ohnehin rund.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var cv = document.getElementById("cv");
+                var ctx = cv.getContext("2d");
+                var img = null;
+                var zoom = 1,
+                    panX = 0,
+                    panY = 0;
+
+                var state = {
+                    rainbow: "ultrathink",
+                    mono: ".club",
+                    club: "#ffffff",
+                    font: "jetbrains",
+                    rbBright: 80,
+                    mode: "bottom",
+                    bandColor: "#000000",
+                    sweep: 160,
+                    thick: 22,
+                    rot: 78,
+                    pad: 5,
+                    size: 800,
+                    bg: "transparent",
+                };
+
+                var UI_FONT = '"Bricolage Grotesque", sans-serif';
+                var FONTS = {
+                    jetbrains: {
+                        label: "JetBrains Mono",
+                        css: '"JetBrains Mono", monospace',
+                        weight: "700",
+                        load: '700 100px "JetBrains Mono"',
+                    },
+                    fira: {
+                        label: "Fira Code",
+                        css: '"Fira Code", monospace',
+                        weight: "700",
+                        load: '700 100px "Fira Code"',
+                    },
+                    consolas: {
+                        label: "Consolas",
+                        css: 'Consolas, "Lucida Console", monospace',
+                        weight: "700",
+                        load: null,
+                    },
+                    courier: {
+                        label: "Courier New",
+                        css: '"Courier New", Courier, monospace',
+                        weight: "700",
+                        load: null,
+                    },
+                    menlo: {
+                        label: "Menlo / Monaco",
+                        css: "Menlo, Monaco, monospace",
+                        weight: "700",
+                        load: null,
+                    },
+                    mono: {
+                        label: "System-Monospace",
+                        css: "monospace",
+                        weight: "700",
+                        load: null,
+                    },
+                    bricolage: {
+                        label: "Bricolage (Standard)",
+                        css: '"Bricolage Grotesque", sans-serif',
+                        weight: "800",
+                        load: '800 100px "Bricolage Grotesque"',
+                    },
+                };
+                function bandFont(px) {
+                    var f = FONTS[state.font] || FONTS.jetbrains;
+                    return f.weight + " " + px + "px " + f.css;
+                }
+
+                function luminance(hex) {
+                    var c = hex.replace("#", "");
+                    if (c.length === 3) {
+                        c = c[0] + c[0] + c[1] + c[1] + c[2] + c[2];
+                    }
+                    var r = parseInt(c.substr(0, 2), 16) / 255,
+                        g = parseInt(c.substr(2, 2), 16) / 255,
+                        b = parseInt(c.substr(4, 2), 16) / 255;
+                    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+                }
+
+                function setSize() {
+                    cv.width = state.size;
+                    cv.height = state.size;
+                }
+
+                var OKLCH = (function () {
+                    try {
+                        var t = document
+                            .createElement("canvas")
+                            .getContext("2d");
+                        t.fillStyle = "#000000";
+                        t.fillStyle = "oklch(0.7 0.1 200)";
+                        return t.fillStyle !== "#000000";
+                    } catch (e) {
+                        return false;
+                    }
+                })();
+
+                function rainbowColor(i, n) {
+                    var hue = n > 1 ? (i / (n - 1)) * 300 : 0;
+                    if (OKLCH) {
+                        var L = state.rbBright / 100; // perceived lightness, uniform across hues
+                        return (
+                            "oklch(" +
+                            L.toFixed(3) +
+                            " 0.16 " +
+                            hue.toFixed(1) +
+                            ")"
+                        );
+                    }
+                    // fallback: approximate perceptual correction in HSL (blues get a lightness boost)
+                    var base = state.rbBright;
+                    var corr =
+                        1 - 0.28 * Math.exp(-Math.pow((hue - 260) / 55, 2)); // dip compensation around blue/violet
+                    var L = Math.max(20, Math.min(92, base / corr));
+                    return (
+                        "hsl(" + hue.toFixed(1) + ",85%," + L.toFixed(0) + "%)"
+                    );
+                }
+
+                function colorForIndex(i) {
+                    var n = state.rainbow.length;
+                    if (i < n) {
+                        return rainbowColor(i, n);
+                    }
+                    return state.club;
+                }
+
+                function render() {
+                    var S = cv.width,
+                        cx = S / 2,
+                        cy = S / 2;
+                    ctx.clearRect(0, 0, S, S);
+
+                    var outerR = S / 2;
+                    var tFrac = state.thick / 100;
+                    var bandThick, centerR, photoR;
+
+                    if (state.mode === "ring") {
+                        bandThick = outerR * tFrac;
+                        centerR = outerR - bandThick / 2;
+                        photoR = outerR - bandThick;
+                    } else {
+                        photoR = outerR;
+                        bandThick = outerR * tFrac;
+                        centerR = photoR - bandThick / 2;
+                    }
+
+                    // background as a round matte (square corners stay transparent)
+                    if (state.bg !== "transparent") {
+                        ctx.fillStyle = state.bg;
+                        ctx.beginPath();
+                        ctx.arc(cx, cy, outerR, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+
+                    // photo (round)
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, photoR, 0, Math.PI * 2);
+                    ctx.closePath();
+                    ctx.clip();
+                    if (img) {
+                        var base = Math.max(
+                            (2 * photoR) / img.width,
+                            (2 * photoR) / img.height,
+                        );
+                        var sc = base * zoom;
+                        var dw = img.width * sc,
+                            dh = img.height * sc;
+                        ctx.drawImage(
+                            img,
+                            cx - dw / 2 + panX,
+                            cy - dh / 2 + panY,
+                            dw,
+                            dh,
+                        );
+                    } else {
+                        ctx.fillStyle = "#26262c";
+                        ctx.fillRect(
+                            cx - photoR,
+                            cy - photoR,
+                            2 * photoR,
+                            2 * photoR,
+                        );
+                        ctx.fillStyle = "#54545e";
+                        ctx.font = "500 " + S * 0.035 + "px " + UI_FONT;
+                        ctx.textAlign = "center";
+                        ctx.textBaseline = "middle";
+                        ctx.fillText("Foto hier ablegen", cx, cy - S * 0.04);
+                        ctx.fillText("oder „Foto wählen“", cx, cy + S * 0.02);
+                    }
+                    ctx.restore();
+
+                    // band
+                    var sweepRad = (state.sweep * Math.PI) / 180;
+                    var rot = (state.rot * Math.PI) / 180;
+                    ctx.lineWidth = bandThick;
+                    ctx.strokeStyle = state.bandColor;
+                    ctx.lineCap = "butt";
+                    if (state.mode === "ring") {
+                        ctx.beginPath();
+                        ctx.arc(cx, cy, centerR, 0, Math.PI * 2);
+                        ctx.stroke();
+                    } else {
+                        var half = sweepRad / 2;
+                        ctx.beginPath();
+                        ctx.arc(
+                            cx,
+                            cy,
+                            centerR,
+                            Math.PI / 2 + rot - half,
+                            Math.PI / 2 + rot + half,
+                        );
+                        ctx.stroke();
+                    }
+
+                    // curved text
+                    drawCurvedText(cx, cy, centerR, bandThick, sweepRad, rot);
+                }
+
+                function drawCurvedText(
+                    cx,
+                    cy,
+                    centerR,
+                    bandThick,
+                    sweepRad,
+                    rot,
+                ) {
+                    var full = state.rainbow + state.mono;
+                    if (!full.length) return;
+                    var textSpan =
+                        state.mode === "ring"
+                            ? Math.min(sweepRad, Math.PI * 1.1)
+                            : Math.max(sweepRad - 0.22, 0.3);
+                    var lsFrac = 0.04;
+
+                    // fit font size to span at probe size
+                    var probe = 100;
+                    ctx.font = bandFont(probe);
+                    var wProbe = 0;
+                    for (var i = 0; i < full.length; i++) {
+                        wProbe +=
+                            ctx.measureText(full[i]).width + probe * lsFrac;
+                    }
+                    wProbe -= probe * lsFrac;
+                    var target = textSpan * centerR;
+                    var fontSize = (probe * target) / wProbe;
+                    var capFont =
+                        bandThick * Math.max(0.1, 1 - 2 * (state.pad / 100));
+                    fontSize = Math.min(fontSize, capFont);
+                    if (!isFinite(fontSize) || fontSize <= 0) return;
+
+                    ctx.font = bandFont(fontSize);
+                    var ls = fontSize * lsFrac;
+                    var totalW = 0;
+                    for (var j = 0; j < full.length; j++) {
+                        totalW += ctx.measureText(full[j]).width + ls;
+                    }
+                    totalW -= ls;
+                    var totalAng = totalW / centerR;
+
+                    ctx.save();
+                    ctx.translate(cx, cy);
+                    ctx.rotate(rot || 0);
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    var ang = totalAng / 2;
+                    for (var k = 0; k < full.length; k++) {
+                        var ch = full[k];
+                        var cw = ctx.measureText(ch).width / centerR;
+                        ang -= cw / 2;
+                        ctx.save();
+                        ctx.rotate(ang);
+                        ctx.translate(0, centerR);
+                        ctx.fillStyle = colorForIndex(k);
+                        ctx.fillText(ch, 0, 0);
+                        ctx.restore();
+                        ang -= cw / 2 + ls / centerR;
+                    }
+                    ctx.restore();
+                }
+
+                function idealSweepDeg() {
+                    var S = cv.width,
+                        outerR = S / 2,
+                        tFrac = state.thick / 100;
+                    var bandThick = outerR * tFrac,
+                        centerR = outerR - bandThick / 2;
+                    var full = state.rainbow + state.mono;
+                    if (!full.length) return state.sweep;
+                    var lsFrac = 0.04,
+                        probe = 100;
+                    ctx.font = bandFont(probe);
+                    var wProbe = 0;
+                    for (var i = 0; i < full.length; i++) {
+                        wProbe +=
+                            ctx.measureText(full[i]).width + probe * lsFrac;
+                    }
+                    wProbe -= probe * lsFrac;
+                    var capFont =
+                        bandThick * Math.max(0.1, 1 - 2 * (state.pad / 100));
+                    var totalW = (wProbe / probe) * capFont;
+                    var sweepRad = totalW / centerR + 0.22;
+                    var deg = Math.round((sweepRad * 180) / Math.PI);
+                    return Math.max(20, Math.min(300, deg));
+                }
+                function applyIdealSweep() {
+                    state.sweep = idealSweepDeg();
+                    document.getElementById("sweep").value = state.sweep;
+                    document.getElementById("sweepV").textContent =
+                        state.sweep + "°";
+                    render();
+                }
+
+                // ---- image loading ----
+                function setHint(html) {
+                    document.getElementById("hint").innerHTML = html;
+                }
+                function loadFile(f) {
+                    if (!f) {
+                        return;
+                    }
+                    if (f.type && f.type.indexOf("image/") !== 0) {
+                        setHint(
+                            "<b>Das ist kein Bild.</b> Bitte JPG, PNG oder WebP wählen.",
+                        );
+                        return;
+                    }
+                    setHint("Lade Bild …");
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        var im = new Image();
+                        im.onload = function () {
+                            img = im;
+                            zoom = 1;
+                            panX = 0;
+                            panY = 0;
+                            document.getElementById("zoom").value = 100;
+                            document.getElementById("zoomV").textContent =
+                                "1.0×";
+                            setHint(
+                                "Ziehen zum Verschieben · scrollen / Slider zum Zoomen",
+                            );
+                            render();
+                        };
+                        im.onerror = function () {
+                            setHint(
+                                "<b>Format konnte nicht geladen werden.</b> Bei HEIC/HEIF (iPhone) bitte in JPG/PNG umwandeln.",
+                            );
+                        };
+                        im.src = reader.result;
+                    };
+                    reader.onerror = function () {
+                        setHint("<b>Datei konnte nicht gelesen werden.</b>");
+                    };
+                    reader.readAsDataURL(f);
+                }
+                document.getElementById("pick").onclick = function () {
+                    document.getElementById("file").click();
+                };
+                document.getElementById("file").onchange = function (e) {
+                    var f = e.target.files[0];
+                    loadFile(f);
+                    e.target.value = "";
+                };
+                document.getElementById("clear").onclick = function () {
+                    img = null;
+                    zoom = 1;
+                    panX = 0;
+                    panY = 0;
+                    document.getElementById("zoom").value = 100;
+                    document.getElementById("zoomV").textContent = "1.0×";
+                    document.getElementById("hint").innerHTML =
+                        "<b>Foto auswählen</b> · dann ziehen zum Verschieben · scrollen / Slider zum Zoomen";
+                    render();
+                };
+
+                // prevent the browser from navigating to / opening a dropped file anywhere on the page
+                ["dragover", "drop"].forEach(function (ev) {
+                    window.addEventListener(
+                        ev,
+                        function (e) {
+                            e.preventDefault();
+                        },
+                        false,
+                    );
+                });
+                var stage = document.querySelector(".stage");
+                ["dragenter", "dragover"].forEach(function (ev) {
+                    stage.addEventListener(ev, function (e) {
+                        e.preventDefault();
+                        stage.style.borderColor = "var(--line2)";
+                    });
+                });
+                ["dragleave", "drop"].forEach(function (ev) {
+                    stage.addEventListener(ev, function () {
+                        stage.style.borderColor = "var(--line)";
+                    });
+                });
+                stage.addEventListener("drop", function (e) {
+                    e.preventDefault();
+                    var f =
+                        e.dataTransfer &&
+                        e.dataTransfer.files &&
+                        e.dataTransfer.files[0];
+                    if (f) loadFile(f);
+                });
+
+                // pan
+                var dragging = false,
+                    lastX = 0,
+                    lastY = 0;
+                function ratio() {
+                    return cv.width / cv.getBoundingClientRect().width;
+                }
+                cv.addEventListener("pointerdown", function (e) {
+                    if (!img) return;
+                    dragging = true;
+                    cv.classList.add("dragging");
+                    lastX = e.clientX;
+                    lastY = e.clientY;
+                    cv.setPointerCapture(e.pointerId);
+                });
+                cv.addEventListener("pointermove", function (e) {
+                    if (!dragging) return;
+                    var r = ratio();
+                    panX += (e.clientX - lastX) * r;
+                    panY += (e.clientY - lastY) * r;
+                    lastX = e.clientX;
+                    lastY = e.clientY;
+                    render();
+                });
+                cv.addEventListener("pointerup", function (e) {
+                    dragging = false;
+                    cv.classList.remove("dragging");
+                });
+                cv.addEventListener("pointercancel", function () {
+                    dragging = false;
+                    cv.classList.remove("dragging");
+                });
+                cv.addEventListener(
+                    "wheel",
+                    function (e) {
+                        if (!img) return;
+                        e.preventDefault();
+                        zoom *= e.deltaY < 0 ? 1.06 : 0.94;
+                        zoom = Math.max(0.2, Math.min(3.2, zoom));
+                        var s = document.getElementById("zoom");
+                        s.value = Math.round(zoom * 100);
+                        document.getElementById("zoomV").textContent =
+                            zoom.toFixed(1) + "×";
+                        render();
+                    },
+                    { passive: false },
+                );
+
+                // ---- controls ----
+                function seg(id, key, after) {
+                    var box = document.getElementById(id);
+                    box.addEventListener("click", function (e) {
+                        var b = e.target.closest("button");
+                        if (!b) return;
+                        state[key] = b.getAttribute("data-v");
+                        box.querySelectorAll("button").forEach(function (x) {
+                            x.classList.remove("on");
+                        });
+                        b.classList.add("on");
+                        if (after) after();
+                        render();
+                    });
+                }
+                seg("clubSeg", "club");
+                seg("modeSeg", "mode");
+
+                document
+                    .getElementById("rainbow")
+                    .addEventListener("input", function (e) {
+                        state.rainbow = e.target.value;
+                        render();
+                    });
+                document
+                    .getElementById("mono")
+                    .addEventListener("input", function (e) {
+                        state.mono = e.target.value;
+                        render();
+                    });
+                document
+                    .getElementById("rbBright")
+                    .addEventListener("input", function (e) {
+                        state.rbBright = +e.target.value;
+                        document.getElementById("rbBrightV").textContent =
+                            state.rbBright + "%";
+                        render();
+                    });
+                document
+                    .getElementById("font")
+                    .addEventListener("change", function (e) {
+                        state.font = e.target.value;
+                        render();
+                        ensureBandFont(function () {
+                            applyIdealSweep();
+                        });
+                    });
+
+                function normHex(v) {
+                    v = (v || "").trim().replace(/^#/, "");
+                    if (/^[0-9a-fA-F]{3}$/.test(v)) {
+                        v = v[0] + v[0] + v[1] + v[1] + v[2] + v[2];
+                    }
+                    return /^[0-9a-fA-F]{6}$/.test(v)
+                        ? "#" + v.toLowerCase()
+                        : null;
+                }
+
+                // ---- band color ----
+                var bandColorInput = document.getElementById("bandColor");
+                var bandHexInput = document.getElementById("bandHex");
+                function setBandColor(hex, fromHexField) {
+                    state.bandColor = hex;
+                    bandColorInput.value = hex;
+                    if (!fromHexField) bandHexInput.value = hex;
+                    render();
+                }
+                bandColorInput.addEventListener("input", function (e) {
+                    setBandColor(e.target.value, false);
+                });
+                bandHexInput.addEventListener("input", function (e) {
+                    var h = normHex(e.target.value);
+                    if (h) setBandColor(h, true);
+                });
+                document
+                    .querySelectorAll("#bandSwatches .swatch")
+                    .forEach(function (s) {
+                        s.addEventListener("click", function () {
+                            setBandColor(s.getAttribute("data-c"), false);
+                        });
+                    });
+                (function () {
+                    var pick = document.getElementById("bandPick");
+                    if (window.EyeDropper) {
+                        pick.addEventListener("click", function () {
+                            try {
+                                new window.EyeDropper()
+                                    .open()
+                                    .then(function (r) {
+                                        if (r && r.sRGBHex)
+                                            setBandColor(r.sRGBHex, false);
+                                    })
+                                    .catch(function () {});
+                            } catch (e) {}
+                        });
+                    } else {
+                        pick.title =
+                            "Pipette wird von diesem Browser nicht unterstützt (Chrome/Edge)";
+                        pick.addEventListener("click", function () {
+                            setHint(
+                                "<b>Pipette nicht verfügbar.</b> Sie funktioniert in Chrome/Edge; sonst Farbwähler oder Hex nutzen.",
+                            );
+                        });
+                    }
+                })();
+
+                // ---- background ----
+                var bgColorInput = document.getElementById("bgColor");
+                var bgHexInput = document.getElementById("bgHex");
+                function setBgColor(hex, fromHexField) {
+                    if (hex === "transparent") {
+                        state.bg = "transparent";
+                        render();
+                        return;
+                    }
+                    state.bg = hex;
+                    bgColorInput.value = hex;
+                    if (!fromHexField) bgHexInput.value = hex;
+                    render();
+                }
+                bgColorInput.addEventListener("input", function (e) {
+                    setBgColor(e.target.value, false);
+                });
+                bgHexInput.addEventListener("input", function (e) {
+                    var h = normHex(e.target.value);
+                    if (h) setBgColor(h, true);
+                });
+                document
+                    .querySelectorAll("#bgSwatches .swatch")
+                    .forEach(function (s) {
+                        s.addEventListener("click", function () {
+                            setBgColor(s.getAttribute("data-c"), false);
+                        });
+                    });
+
+                document
+                    .getElementById("sweep")
+                    .addEventListener("input", function (e) {
+                        state.sweep = +e.target.value;
+                        document.getElementById("sweepV").textContent =
+                            state.sweep + "°";
+                        render();
+                    });
+                document
+                    .getElementById("thick")
+                    .addEventListener("input", function (e) {
+                        state.thick = +e.target.value;
+                        document.getElementById("thickV").textContent =
+                            state.thick + "%";
+                        render();
+                    });
+                document
+                    .getElementById("rot")
+                    .addEventListener("input", function (e) {
+                        state.rot = +e.target.value;
+                        document.getElementById("rotV").textContent =
+                            state.rot + "°";
+                        render();
+                    });
+                document
+                    .getElementById("pad")
+                    .addEventListener("input", function (e) {
+                        state.pad = +e.target.value;
+                        document.getElementById("padV").textContent =
+                            state.pad + "%";
+                        render();
+                    });
+                document
+                    .getElementById("fitSweep")
+                    .addEventListener("click", applyIdealSweep);
+                document
+                    .getElementById("zoom")
+                    .addEventListener("input", function (e) {
+                        zoom = +e.target.value / 100;
+                        document.getElementById("zoomV").textContent =
+                            zoom.toFixed(1) + "×";
+                        render();
+                    });
+
+                function syncZoomUI() {
+                    document.getElementById("zoom").value = Math.round(
+                        zoom * 100,
+                    );
+                    document.getElementById("zoomV").textContent =
+                        zoom.toFixed(1) + "×";
+                }
+                function fitWhole() {
+                    if (!img) {
+                        return;
+                    }
+                    var S = cv.width,
+                        outerR = S / 2,
+                        tFrac = state.thick / 100;
+                    var photoR =
+                        state.mode === "ring"
+                            ? outerR - outerR * tFrac
+                            : outerR;
+                    var d = 2 * photoR;
+                    var cover = Math.max(d / img.width, d / img.height);
+                    var contain = Math.min(d / img.width, d / img.height);
+                    zoom = Math.max(0.2, Math.min(3.2, contain / cover));
+                    panX = 0;
+                    panY = 0;
+                    syncZoomUI();
+                    render();
+                }
+                document
+                    .getElementById("fit")
+                    .addEventListener("click", fitWhole);
+
+                document
+                    .getElementById("size")
+                    .addEventListener("change", function (e) {
+                        state.size = +e.target.value;
+                        setSize();
+                        render();
+                    });
+
+                function outName() {
+                    return (
+                        ((state.rainbow + state.mono)
+                            .replace(/[^a-z0-9._-]+/gi, "-")
+                            .replace(/^-+|-+$/g, "") || "banner") + ".png"
+                    );
+                }
+                function triggerDownload(url, name, revoke) {
+                    var a = document.createElement("a");
+                    a.href = url;
+                    a.download = name;
+                    a.rel = "noopener";
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    if (revoke)
+                        setTimeout(function () {
+                            URL.revokeObjectURL(url);
+                        }, 2000);
+                }
+                function fallbackOpen(dataUrl) {
+                    var w = window.open();
+                    if (w) {
+                        w.document.write(
+                            "<title>" +
+                                outName() +
+                                '</title><img src="' +
+                                dataUrl +
+                                '" style="max-width:100%">' +
+                                '<p style="font-family:sans-serif">Rechtsklick auf das Bild → „Bild speichern unter …“</p>',
+                        );
+                        w.document.close();
+                    } else {
+                        setHint(
+                            "<b>Download blockiert.</b> Bitte die Datei lokal im Browser öffnen (Doppelklick), nicht in der Vorschau.",
+                        );
+                    }
+                }
+                document
+                    .getElementById("download")
+                    .addEventListener("click", function () {
+                        render();
+                        var name = outName();
+                        try {
+                            if (cv.toBlob) {
+                                cv.toBlob(function (blob) {
+                                    if (!blob) {
+                                        try {
+                                            fallbackOpen(
+                                                cv.toDataURL("image/png"),
+                                            );
+                                        } catch (e) {
+                                            setHint(
+                                                "<b>Export fehlgeschlagen.</b>",
+                                            );
+                                        }
+                                        return;
+                                    }
+                                    triggerDownload(
+                                        URL.createObjectURL(blob),
+                                        name,
+                                        true,
+                                    );
+                                }, "image/png");
+                            } else {
+                                triggerDownload(
+                                    cv.toDataURL("image/png"),
+                                    name,
+                                    false,
+                                );
+                            }
+                        } catch (err) {
+                            try {
+                                fallbackOpen(cv.toDataURL("image/png"));
+                            } catch (e) {
+                                setHint(
+                                    "<b>Export fehlgeschlagen.</b> Bitte Datei lokal öffnen.",
+                                );
+                            }
+                        }
+                    });
+
+                // load the selected band font, then re-render (so measureText matches the rendered glyphs)
+                function ensureBandFont(cb) {
+                    var f = FONTS[state.font] || FONTS.jetbrains;
+                    if (f.load && document.fonts && document.fonts.load) {
+                        document.fonts
+                            .load(f.load)
+                            .then(function () {
+                                cb && cb();
+                            })
+                            .catch(function () {
+                                cb && cb();
+                            });
+                    } else if (cb) {
+                        cb();
+                    }
+                }
+
+                // initial render once the display font is ready (so curved text measures correctly)
+                setSize();
+                function init() {
+                    ensureBandFont(applyIdealSweep);
+                    applyIdealSweep();
+                }
+                if (document.fonts && document.fonts.load) {
+                    document.fonts
+                        .load('800 100px "Bricolage Grotesque"')
+                        .then(init)
+                        .catch(init);
+                    document.fonts.ready.then(function () {
+                        applyIdealSweep();
+                    });
+                } else {
+                    init();
+                }
+            })();
+        </script>
+    </body>
+</html>
