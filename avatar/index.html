@@ -3,7 +3,12 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+            name="description"
+            content="Profilbild rund zuschneiden, Banner drauflegen, quadratisches PNG exportieren — alles lokal im Browser."
+        />
         <title>ultrathink.club — Profilbild-Banner</title>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
@@ -383,7 +388,14 @@
         <div class="layout">
             <div class="stage">
                 <div class="canvas-wrap">
-                    <canvas id="cv" width="800" height="800"></canvas>
+                    <canvas
+                        id="cv"
+                        width="800"
+                        height="800"
+                        role="img"
+                        aria-label="Vorschau des Profilbilds mit Banner"
+                        >Vorschau des Profilbilds mit Banner</canvas
+                    >
                 </div>
                 <div class="hint" id="hint">
                     <b>Foto auswählen</b> · dann ziehen zum Verschieben ·
@@ -402,7 +414,7 @@
                     </div>
                     <input type="file" id="file" accept="image/*" />
                     <div class="field" style="margin-top: 14px">
-                        <label class="lbl">Zoom</label>
+                        <label class="lbl" for="zoom">Zoom</label>
                         <div class="range-row">
                             <input
                                 type="range"
@@ -431,15 +443,15 @@
                 <div class="panel">
                     <h2>Text</h2>
                     <div class="field">
-                        <label class="lbl">Regenbogen-Teil</label>
+                        <label class="lbl" for="rainbow">Regenbogen-Teil</label>
                         <input type="text" id="rainbow" value="ultrathink" />
                     </div>
                     <div class="field">
-                        <label class="lbl">Einfarbiger Teil</label>
+                        <label class="lbl" for="mono">Einfarbiger Teil</label>
                         <input type="text" id="mono" value=".club" />
                     </div>
                     <div class="field">
-                        <label class="lbl">Schriftart (Band)</label>
+                        <label class="lbl" for="font">Schriftart (Band)</label>
                         <select id="font">
                             <option value="jetbrains" selected>
                                 JetBrains Mono — Terminal
@@ -455,7 +467,9 @@
                         </select>
                     </div>
                     <div class="field">
-                        <label class="lbl">Regenbogen-Helligkeit</label>
+                        <label class="lbl" for="rbBright"
+                            >Regenbogen-Helligkeit</label
+                        >
                         <div class="range-row">
                             <input
                                 type="range"
@@ -489,7 +503,7 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label class="lbl">Bandfarbe</label>
+                        <label class="lbl" for="bandColor">Bandfarbe</label>
                         <div class="color-row">
                             <input
                                 type="color"
@@ -551,7 +565,7 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label class="lbl">Bogenwinkel</label>
+                        <label class="lbl" for="sweep">Bogenwinkel</label>
                         <div class="range-row">
                             <input
                                 type="range"
@@ -576,7 +590,7 @@
                         </button>
                     </div>
                     <div class="field">
-                        <label class="lbl">Banddicke</label>
+                        <label class="lbl" for="thick">Banddicke</label>
                         <div class="range-row">
                             <input
                                 type="range"
@@ -590,7 +604,7 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label class="lbl"
+                        <label class="lbl" for="pad"
                             >Text-Padding (Abstand zur Bandkante)</label
                         >
                         <div class="range-row">
@@ -606,7 +620,9 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label class="lbl">Bogenposition (0° = unten)</label>
+                        <label class="lbl" for="rot"
+                            >Bogenposition (0° = unten)</label
+                        >
                         <div class="range-row">
                             <input
                                 type="range"
@@ -624,7 +640,9 @@
                 <div class="panel">
                     <h2>Export</h2>
                     <div class="field">
-                        <label class="lbl">Größe (quadratisch)</label>
+                        <label class="lbl" for="size"
+                            >Größe (quadratisch)</label
+                        >
                         <select id="size">
                             <option value="400">400 × 400</option>
                             <option value="800" selected>800 × 800</option>
@@ -632,7 +650,7 @@
                         </select>
                     </div>
                     <div class="field">
-                        <label class="lbl">Hintergrund</label>
+                        <label class="lbl" for="bgColor">Hintergrund</label>
                         <div class="color-row">
                             <input type="color" id="bgColor" value="#0b3d91" />
                             <input
@@ -767,17 +785,6 @@
                     return f.weight + " " + px + "px " + f.css;
                 }
 
-                function luminance(hex) {
-                    var c = hex.replace("#", "");
-                    if (c.length === 3) {
-                        c = c[0] + c[0] + c[1] + c[1] + c[2] + c[2];
-                    }
-                    var r = parseInt(c.substr(0, 2), 16) / 255,
-                        g = parseInt(c.substr(2, 2), 16) / 255,
-                        b = parseInt(c.substr(4, 2), 16) / 255;
-                    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-                }
-
                 function setSize() {
                     cv.width = state.size;
                     cv.height = state.size;
@@ -819,11 +826,23 @@
                 }
 
                 function colorForIndex(i) {
-                    var n = state.rainbow.length;
+                    // count code points, not UTF-16 units (emoji etc.)
+                    var n = Array.from(state.rainbow).length;
                     if (i < n) {
                         return rainbowColor(i, n);
                     }
                     return state.club;
+                }
+
+                // coalesce high-frequency events (drag/wheel) into one render per frame
+                var rafPending = false;
+                function scheduleRender() {
+                    if (rafPending) return;
+                    rafPending = true;
+                    requestAnimationFrame(function () {
+                        rafPending = false;
+                        render();
+                    });
                 }
 
                 function render() {
@@ -927,7 +946,8 @@
                     sweepRad,
                     rot,
                 ) {
-                    var full = state.rainbow + state.mono;
+                    // split into code points so emoji/surrogate pairs stay intact
+                    var full = Array.from(state.rainbow + state.mono);
                     if (!full.length) return;
                     var textSpan =
                         state.mode === "ring"
@@ -987,7 +1007,7 @@
                         tFrac = state.thick / 100;
                     var bandThick = outerR * tFrac,
                         centerR = outerR - bandThick / 2;
-                    var full = state.rainbow + state.mono;
+                    var full = Array.from(state.rainbow + state.mono);
                     if (!full.length) return state.sweep;
                     var lsFrac = 0.04,
                         probe = 100;
@@ -1129,7 +1149,7 @@
                     panY += (e.clientY - lastY) * r;
                     lastX = e.clientX;
                     lastY = e.clientY;
-                    render();
+                    scheduleRender();
                 });
                 cv.addEventListener("pointerup", function (e) {
                     dragging = false;
@@ -1150,13 +1170,13 @@
                         s.value = Math.round(zoom * 100);
                         document.getElementById("zoomV").textContent =
                             zoom.toFixed(1) + "×";
-                        render();
+                        scheduleRender();
                     },
                     { passive: false },
                 );
 
                 // ---- controls ----
-                function seg(id, key, after) {
+                function seg(id, key) {
                     var box = document.getElementById(id);
                     box.addEventListener("click", function (e) {
                         var b = e.target.closest("button");
@@ -1166,7 +1186,6 @@
                             x.classList.remove("on");
                         });
                         b.classList.add("on");
-                        if (after) after();
                         render();
                     });
                 }
@@ -1213,6 +1232,18 @@
                         : null;
                 }
 
+                // highlight the swatch matching the current color (if any)
+                function markSwatch(boxId, color) {
+                    document
+                        .querySelectorAll("#" + boxId + " .swatch")
+                        .forEach(function (s) {
+                            s.classList.toggle(
+                                "on",
+                                s.getAttribute("data-c") === color,
+                            );
+                        });
+                }
+
                 // ---- band color ----
                 var bandColorInput = document.getElementById("bandColor");
                 var bandHexInput = document.getElementById("bandHex");
@@ -1220,6 +1251,7 @@
                     state.bandColor = hex;
                     bandColorInput.value = hex;
                     if (!fromHexField) bandHexInput.value = hex;
+                    markSwatch("bandSwatches", hex);
                     render();
                 }
                 bandColorInput.addEventListener("input", function (e) {
@@ -1267,12 +1299,14 @@
                 function setBgColor(hex, fromHexField) {
                     if (hex === "transparent") {
                         state.bg = "transparent";
+                        markSwatch("bgSwatches", "transparent");
                         render();
                         return;
                     }
                     state.bg = hex;
                     bgColorInput.value = hex;
                     if (!fromHexField) bgHexInput.value = hex;
+                    markSwatch("bgSwatches", hex);
                     render();
                 }
                 bgColorInput.addEventListener("input", function (e) {
@@ -1290,9 +1324,11 @@
                         });
                     });
 
+                var sweepTouched = false;
                 document
                     .getElementById("sweep")
                     .addEventListener("input", function (e) {
+                        sweepTouched = true;
                         state.sweep = +e.target.value;
                         document.getElementById("sweepV").textContent =
                             state.sweep + "°";
@@ -1368,7 +1404,13 @@
                 document
                     .getElementById("size")
                     .addEventListener("change", function (e) {
+                        var prev = state.size;
                         state.size = +e.target.value;
+                        // pan is stored in canvas pixels — rescale so the
+                        // composition stays identical at the new size
+                        var f = state.size / prev;
+                        panX *= f;
+                        panY *= f;
                         setSize();
                         render();
                     });
@@ -1396,15 +1438,16 @@
                 function fallbackOpen(dataUrl) {
                     var w = window.open();
                     if (w) {
-                        w.document.write(
-                            "<title>" +
-                                outName() +
-                                '</title><img src="' +
-                                dataUrl +
-                                '" style="max-width:100%">' +
-                                '<p style="font-family:sans-serif">Rechtsklick auf das Bild → „Bild speichern unter …“</p>',
-                        );
-                        w.document.close();
+                        w.document.title = outName();
+                        var im = w.document.createElement("img");
+                        im.src = dataUrl;
+                        im.style.maxWidth = "100%";
+                        var p = w.document.createElement("p");
+                        p.style.fontFamily = "sans-serif";
+                        p.textContent =
+                            "Rechtsklick auf das Bild → „Bild speichern unter …“";
+                        w.document.body.appendChild(im);
+                        w.document.body.appendChild(p);
                     } else {
                         setHint(
                             "<b>Download blockiert.</b> Bitte die Datei lokal im Browser öffnen (Doppelklick), nicht in der Vorschau.",
@@ -1472,6 +1515,15 @@
                     }
                 }
 
+                // accessible names for the color-only swatch buttons
+                document.querySelectorAll(".swatch").forEach(function (s) {
+                    var name = s.title || s.getAttribute("data-c");
+                    if (!s.title) s.title = name;
+                    s.setAttribute("aria-label", name);
+                });
+                markSwatch("bandSwatches", state.bandColor);
+                markSwatch("bgSwatches", state.bg);
+
                 // initial render once the display font is ready (so curved text measures correctly)
                 setSize();
                 function init() {
@@ -1484,7 +1536,8 @@
                         .then(init)
                         .catch(init);
                     document.fonts.ready.then(function () {
-                        applyIdealSweep();
+                        // re-fit once webfonts are in — unless the user already set a sweep
+                        if (!sweepTouched) applyIdealSweep();
                     });
                 } else {
                     init();
