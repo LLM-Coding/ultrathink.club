@@ -2,7 +2,7 @@
 
 **Datum:** 2026-06-04
 **Status:** Approved
-**Version:** v0.1.0
+**Version:** v0.1.2
 
 ## Problem & Ziel
 
@@ -18,13 +18,14 @@ und können sich mit einem Klick auf die Warteliste setzen lassen.
 **In Scope**
 - Eine statische `index.html` mit animiertem „ultrathink.club"-Wordmark
 - Rotierende, humorvolle Slogans (Terminal-Stil)
-- Call-to-Action auf eine externe Warteliste (rapidmail)
+- Call-to-Action auf ein externes Zugangs-Formular (Tally)
+- Gründungsmitglieder als minimale Avatar-Reihe (LinkedIn-Links, selbst-gehostete Bilder)
 - Datensparsame Reichweitenmessung (GoatCounter)
 - Deployment über GitHub Pages auf die Domain `ultrathink.club`
 
 **Out of Scope (später)**
 - Die eigentliche Community-Plattform
-- Eigenes Formular-Backend (Warteliste läuft extern über rapidmail)
+- Eigenes Formular-Backend (Zugangsanfrage läuft extern über Tally)
 - Open-Graph-Bild (Follow-up)
 - Mehrsprachigkeit / i18n
 
@@ -72,10 +73,21 @@ Dateien brächte keinen Nutzen.
      DE+EN gemischt) — **keine** Rotation (subtiler).
 
 3. **Call-to-Action**
-   - Button „→ Join the waitlist" verlinkt auf das externe rapidmail-Anmeldeformular.
-   - Bis die finale rapidmail-URL vorliegt: Platzhalter-`href` (`#`), klar markiert.
+   - Button „→ Zugang anfragen" öffnet das externe **Tally**-Formular (`WOqr7j`) als Modal
+     (`embed.js`, `data-tally-open`); ohne JS navigiert der `href` zum Formular. Invite-only-Positionierung.
 
-4. **Footer**
+4. **Gründungsmitglieder**
+   - Minimale Avatar-Reihe („·· founded by ··") zwischen CTA und Footer: vier runde Avatare
+     (Stephan Schmidt, Ralf D. Müller, Ingo Eichhorst, Uwe Franke), je verlinkt auf das
+     LinkedIn-Profil (`target=_blank rel=noopener`), der **Name erscheint bei Hover/Focus unter**
+     dem Bild in einem reservierten Slot (kein Layout-Shift, überlagert keine andere Schrift).
+   - **Reihenfolge bei jedem Laden zufällig** (Fisher–Yates, JS-Progressive-Enhancement);
+     ohne JS bleibt die statische HTML-Reihenfolge.
+   - **Avatare selbst-gehostet** unter `avatars/*.jpg` (100×100, ~5 KB), **nicht** von LinkedIn
+     gehotlinkt: die Quell-URLs sind signiert und laufen ab, Self-Hosting vermeidet zudem einen
+     Drittanbieter-Request pro Besuch (DSGVO / Static-First).
+
+5. **Footer**
    - Versionsnummer (`v0.1.0`).
    - Disclaimer „Not affiliated with Anthropic" (mindert Verwechslungs-/Affiliation-Risiko,
      siehe Markenrecherche unten).
@@ -103,6 +115,7 @@ Dateien brächte keinen Nutzen.
 |---|---|
 | `index.html` | Die komplette Seite (HTML + inline CSS + minimal JS) |
 | `wordmark.svg` | Pixelgenaue SVG-Maske des „ultrathink"-Schriftzugs (DOS Rebel, ~6 KB) |
+| `avatars/*.jpg` | Selbst-gehostete Founder-Avatare (Stephan, Ralf, Ingo, Uwe; 100×100) |
 | `CNAME` | Custom-Domain für GitHub Pages |
 | `favicon.svg` | Inline-SVG-Favicon (kleiner Regenbogen-Block) |
 | `.gitignore` | ignoriert `.superpowers/`, `.playwright-cli/` |
@@ -114,8 +127,9 @@ Version im Footer **und** als HTML-Kommentar sichtbar, Start bei `v0.1.0`.
 
 ## Offene Punkte / Abhängigkeiten
 
-- **rapidmail-URL:** Das Anmeldeformular muss im rapidmail-Konto angelegt und die URL
-  nachgereicht werden; bis dahin Platzhalter-Link.
+- **Tally-Formular:** Verdrahtet (`WOqr7j`, Modal via `embed.js`). Erledigt.
+- **LinkedIn-Vanity-URLs:** Aktuell die member-URN-Links (`/in/ACoAA…`); falls die Founder
+  saubere Vanity-URLs haben, diese eintragen.
 - **GoatCounter-Konto:** Muss mit Code `ultrathink` existieren, sonst zählt das Snippet ins Leere.
 - **Markenrecherche (vor echtem Launch, nicht für diese Seite):**
   „ultrathink" wird von mehreren Dritten genutzt (u.a. ultrathink.de — Hamburg, KI, B2B-SaaS;
