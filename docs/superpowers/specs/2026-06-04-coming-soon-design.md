@@ -2,7 +2,7 @@
 
 **Datum:** 2026-06-04
 **Status:** Approved
-**Version:** v0.1.2
+**Version:** v0.1.3
 
 ## Problem & Ziel
 
@@ -86,6 +86,8 @@ Dateien brächte keinen Nutzen.
    - **Avatare selbst-gehostet** unter `avatars/*.jpg` (100×100, ~5 KB), **nicht** von LinkedIn
      gehotlinkt: die Quell-URLs sind signiert und laufen ab, Self-Hosting vermeidet zudem einen
      Drittanbieter-Request pro Besuch (DSGVO / Static-First).
+   - **Follow-Link zur LinkedIn-Organisation** (`/company/ultrathink-club/`) als dezente Zeile
+     („↳ Folge uns auf LinkedIn ↗") direkt unter der Avatar-Reihe; verbindet Gründer und Organisation.
 
 5. **Footer**
    - Versionsnummer (`v0.1.0`).
