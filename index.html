@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- ultrathink.club — coming soon — v0.1.3 -->
+<!-- ultrathink.club — coming soon — v0.1.4 -->
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -109,15 +109,48 @@
     .founders-follow{font-size:11px; letter-spacing:.5px; color:var(--dim); text-decoration:none}
     .founders-follow:hover, .founders-follow:focus-visible{color:var(--grn)}
 
+    /* "Im Gespräch" — founder talks from the HMZE podcast, revealed one per Friday.
+       All four cards live in the static HTML (no-JS: all visible, each linked to
+       YouTube). A synchronous inline script hides the not-yet-due ones by their
+       data-unlock (UTC) timestamp; clicking a card swaps the self-hosted thumbnail
+       for a youtube-nocookie iframe (no third-party request until the click). */
+    .talks{margin-top:46px; width:100%; max-width:722px; display:flex; flex-direction:column; align-items:center; gap:18px}
+    .talks[hidden]{display:none}
+    .talks-label{font-size:11px; letter-spacing:2px; color:var(--dim)}
+    .talks-grid{list-style:none; display:flex; flex-wrap:wrap; justify-content:center; gap:18px; margin:0; padding:0; width:100%}
+    .talk-item{width:min(100%,332px)}
+    .talk-item[hidden]{display:none}
+    .talk{display:flex; flex-direction:column; gap:9px; text-decoration:none; color:inherit; outline:none}
+    .talk-thumb{
+      position:relative; display:block; aspect-ratio:16/9; border-radius:10px; overflow:hidden;
+      background:#10161f center/cover no-repeat; border:1.5px solid rgba(255,255,255,.12);
+      filter:grayscale(.3); transition:border-color .14s, transform .14s, filter .14s;
+    }
+    .talk:hover .talk-thumb, .talk:focus-visible .talk-thumb{
+      border-color:var(--grn); transform:translateY(-3px); filter:grayscale(0);
+    }
+    /* play button, centred over the thumbnail */
+    .talk-thumb::after{
+      content:""; position:absolute; left:50%; top:50%; width:56px; height:56px; transform:translate(-50%,-50%);
+      background:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2056%2056'%3E%3Ccircle%20cx='28'%20cy='28'%20r='26'%20fill='%230a0e14'%20fill-opacity='.72'%20stroke='%23e6edf3'%20stroke-width='1.5'/%3E%3Cpath%20d='M23%2018v20l16-10z'%20fill='%23e6edf3'/%3E%3C/svg%3E") center/contain no-repeat;
+      transition:transform .14s;
+    }
+    .talk:hover .talk-thumb::after, .talk:focus-visible .talk-thumb::after{transform:translate(-50%,-50%) scale(1.08)}
+    .talk-frame{width:100%; aspect-ratio:16/9; border:0; border-radius:10px; display:block}
+    .talk-name{font-size:12px; line-height:1.4; color:var(--white)}
+    .talk-name .role{color:var(--dim); font-size:11px}
+
+    /* margin-top:auto keeps the footer pinned to the bottom on a short page (talks
+       hidden), yet lets it flow after the content on a tall one — no fixed overlap. */
     footer{
-      position:fixed; bottom:0; left:0; right:0; margin:0 auto; width:100%; max-width:1000px;
-      padding:14px 16px; font-size:11px; color:#484f58;
+      margin-top:auto; width:100%; max-width:1000px;
+      padding:22px 16px 14px; font-size:11px; color:#484f58;
       display:flex; justify-content:space-between; gap:8px;
     }
     footer a{color:#6e7681; text-decoration:none}
     footer a:hover{color:var(--txt)}
     @media(max-width:620px){
-      footer{position:static; margin-top:50px; flex-direction:column; align-items:center}
+      footer{flex-direction:column; align-items:center}
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -171,8 +204,51 @@
        target="_blank" rel="noopener">↳ Folge uns auf LinkedIn ↗</a>
   </section>
 
+  <!-- Founder talks (HMZE podcast), one revealed each Friday 08:00 Europe/Berlin
+       (= 06:00 UTC in CEST). All four are in the static HTML and linked to YouTube;
+       the inline script below hides the not-yet-due ones. data-unlock is UTC. -->
+  <section class="talks" id="talks" aria-label="Im Gespräch — HMZE Podcast">
+    <div class="talks-label">·· im gespräch · HMZE Podcast ··</div>
+    <ul class="talks-grid">
+      <li class="talk-item" id="stephan" data-unlock="2026-07-03T06:00:00Z">
+        <a class="talk" href="https://www.youtube.com/watch?v=R1iFMEkD_j4" data-yt="R1iFMEkD_j4" data-name="Stephan Schmidt" target="_blank" rel="noopener">
+          <span class="talk-thumb" style="background-image:url('talks/stephan.jpg')"></span>
+          <span class="talk-name">Stephan Schmidt<br><span class="role">im HMZE Podcast</span></span></a>
+      </li>
+      <li class="talk-item" id="ralf" data-unlock="2026-07-10T06:00:00Z">
+        <a class="talk" href="https://www.youtube.com/watch?v=rQj-B3VTx48" data-yt="rQj-B3VTx48" data-name="Ralf D. Müller" target="_blank" rel="noopener">
+          <span class="talk-thumb" style="background-image:url('talks/ralf.jpg')"></span>
+          <span class="talk-name">Ralf D. Müller<br><span class="role">im HMZE Podcast</span></span></a>
+      </li>
+      <li class="talk-item" id="ingo" data-unlock="2026-07-17T06:00:00Z">
+        <a class="talk" href="https://www.youtube.com/watch?v=eyvs7deP9CU" data-yt="eyvs7deP9CU" data-name="Ingo Eichhorst" target="_blank" rel="noopener">
+          <span class="talk-thumb" style="background-image:url('talks/ingo.jpg')"></span>
+          <span class="talk-name">Ingo Eichhorst<br><span class="role">im HMZE Podcast</span></span></a>
+      </li>
+      <li class="talk-item" id="uwe" data-unlock="2026-07-24T06:00:00Z">
+        <a class="talk" href="https://www.youtube.com/watch?v=uhlc-7qFpU8" data-yt="uhlc-7qFpU8" data-name="Uwe Franke" target="_blank" rel="noopener">
+          <span class="talk-thumb" style="background-image:url('talks/uwe.jpg')"></span>
+          <span class="talk-name">Uwe Franke<br><span class="role">im HMZE Podcast</span></span></a>
+      </li>
+    </ul>
+  </section>
+  <script>
+    // Synchronous (anti-flash): hide talks whose unlock time is still in the future.
+    // Runs during parse, right after the section, so future cards never paint.
+    // Without JS the whole section stays visible — every talk links to YouTube.
+    (function () {
+      var section = document.getElementById('talks');
+      if (!section) return;
+      var now = Date.now(), shown = 0;
+      section.querySelectorAll('.talk-item').forEach(function (li) {
+        if (now < Date.parse(li.getAttribute('data-unlock'))) li.hidden = true; else shown++;
+      });
+      if (shown === 0) section.hidden = true;
+    })();
+  </script>
+
   <footer>
-    <span>v0.1.3</span>
+    <span>v0.1.4</span>
     <span>Not affiliated with Anthropic · © 2026 ultrathink.club</span>
   </footer>
 
@@ -211,6 +287,26 @@
         var t = items[i]; items[i] = items[j]; items[j] = t;
       }
       items.forEach(function (li) { row.appendChild(li); });
+    })();
+
+    // Progressive enhancement: click a talk to play it inline via a privacy-friendly
+    // youtube-nocookie iframe (loaded only on click). Without JS the link opens YouTube.
+    (function () {
+      var section = document.getElementById('talks');
+      if (!section) return;
+      section.addEventListener('click', function (e) {
+        var a = e.target.closest('.talk');
+        if (!a || a.dataset.playing) return;
+        e.preventDefault();
+        a.dataset.playing = '1';
+        var frame = document.createElement('iframe');
+        frame.className = 'talk-frame';
+        frame.src = 'https://www.youtube-nocookie.com/embed/' + a.getAttribute('data-yt') + '?autoplay=1&rel=0';
+        frame.title = a.getAttribute('data-name') + ' im HMZE Podcast';
+        frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        frame.setAttribute('allowfullscreen', '');
+        a.querySelector('.talk-thumb').replaceWith(frame);
+      });
     })();
   </script>
 

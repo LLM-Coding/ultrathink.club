@@ -2,7 +2,7 @@
 
 **Datum:** 2026-06-04
 **Status:** Approved
-**Version:** v0.1.3
+**Version:** v0.1.4
 
 ## Problem & Ziel
 
@@ -20,6 +20,7 @@ und können sich mit einem Klick auf die Warteliste setzen lassen.
 - Rotierende, humorvolle Slogans (Terminal-Stil)
 - Call-to-Action auf ein externes Zugangs-Formular (Tally)
 - Gründungsmitglieder als minimale Avatar-Reihe (LinkedIn-Links, selbst-gehostete Bilder)
+- Founder-Talks (HMZE-Podcast) als „Im Gespräch"-Sektion, je Freitag ein Video mehr freigeschaltet
 - Datensparsame Reichweitenmessung (GoatCounter)
 - Deployment über GitHub Pages auf die Domain `ultrathink.club`
 
@@ -89,11 +90,29 @@ Dateien brächte keinen Nutzen.
    - **Follow-Link zur LinkedIn-Organisation** (`/company/ultrathink-club/`) als dezente Zeile
      („↳ Folge uns auf LinkedIn ↗") direkt unter der Avatar-Reihe; verbindet Gründer und Organisation.
 
-5. **Footer**
+5. **Im Gespräch (Founder-Talks, HMZE-Podcast)**
+   - Sektion „·· im gespräch · HMZE Podcast ··" unter der Founder-Reihe: vier Talk-Karten
+     (Stephan, Ralf, Ingo, Uwe), je ein YouTube-Video aus dem HMZE-Podcast.
+   - **Zeitgesteuerte Freischaltung:** je Freitag 08:00 Europe/Berlin (= 06:00 UTC, CEST) ein
+     Video mehr, in fester Reihenfolge (Stephan 03.07. → Ralf 10.07. → Ingo 17.07. → Uwe 24.07.).
+     Umsetzung als feste UTC-Zeitstempel je Karte (`data-unlock`); ein **synchrones** Inline-Skript
+     (direkt nach der Sektion, gegen FOUC) blendet noch nicht fällige Karten aus, verbirgt die ganze
+     Sektion solange keine fällig ist. Zeitzonensicher via `Date.now()`-Vergleich.
+   - **Static-First:** Alle vier Karten stehen **im HTML** und verlinken auf YouTube — ohne JS ist
+     die Sektion voll sichtbar (Fallback), JS steuert nur Sichtbarkeit und Inline-Play.
+   - **DSGVO-Klick-Facade:** Karte zeigt ein **selbst-gehostetes** Thumbnail (`talks/*.jpg`,
+     YouTube maxres, 16:9); erst beim Klick wird ein `youtube-nocookie.com`-iframe eingesetzt —
+     kein Drittanbieter-Request/Cookie beim Seitenaufruf.
+   - **Deep-Link-Anker** je Person (`#stephan`, `#ralf`, `#ingo`, `#uwe`), damit die
+     wöchentlichen LinkedIn-Posts direkt auf das jeweilige Video zeigen können.
+
+6. **Footer**
    - Versionsnummer (`v0.1.0`).
    - Disclaimer „Not affiliated with Anthropic" (mindert Verwechslungs-/Affiliation-Risiko,
      siehe Markenrecherche unten).
    - © 2026 ultrathink.club.
+   - **Positionierung:** `margin-top:auto` statt `position:fixed` — bleibt auf kurzer Seite
+     (Talks verborgen) unten, fließt auf langer Seite hinter den Inhalt, ohne ihn zu überlagern.
 
 ## Querschnitt
 
@@ -118,6 +137,7 @@ Dateien brächte keinen Nutzen.
 | `index.html` | Die komplette Seite (HTML + inline CSS + minimal JS) |
 | `wordmark.svg` | Pixelgenaue SVG-Maske des „ultrathink"-Schriftzugs (DOS Rebel, ~6 KB) |
 | `avatars/*.jpg` | Selbst-gehostete Founder-Avatare (Stephan, Ralf, Ingo, Uwe; 100×100) |
+| `talks/*.jpg` | Selbst-gehostete YouTube-Thumbnails der HMZE-Talks (maxres, 16:9) |
 | `CNAME` | Custom-Domain für GitHub Pages |
 | `favicon.svg` | Inline-SVG-Favicon (kleiner Regenbogen-Block) |
 | `.gitignore` | ignoriert `.superpowers/`, `.playwright-cli/` |
