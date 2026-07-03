@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- ultrathink.club — coming soon — v0.1.7 -->
+<!-- ultrathink.club — coming soon — v0.1.8 -->
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -35,7 +35,10 @@
       color:var(--txt);
       font-family:ui-monospace,"SFMono-Regular","JetBrains Mono","Fira Code",Consolas,monospace;
       min-height:100%;
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      /* flex-start (not center): with the auto-margin footer the hero already sits near
+         the top when the page fits, and centering an OVERFLOWING column clips the top
+         (wordmark) above the scroll origin on narrow screens — unreachable. See #11. */
+      display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
       padding:40px 12px; text-align:center;
     }
 
@@ -253,7 +256,7 @@
   </script>
 
   <footer>
-    <span>v0.1.7</span>
+    <span>v0.1.8</span>
     <span>Not affiliated with Anthropic · © 2026 ultrathink.club</span>
   </footer>
 

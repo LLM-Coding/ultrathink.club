@@ -14,3 +14,14 @@ document.addEventListener('click', function (e) {
   f.setAttribute('allowfullscreen', '');
   v.replaceWith(f);
 });
+
+// GoatCounter — same endpoint as the homepage, so subpage views are counted too (#12).
+// Loaded here (shared by every talk subpage) instead of duplicating the snippet per file.
+// GoatCounter skips localhost by default, so this only records on the live domain.
+window.goatcounter = { endpoint: 'https://ultrathink.goatcounter.com/count' };
+(function () {
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = '//gc.zgo.at/count.js';
+  document.head.appendChild(s);
+})();
