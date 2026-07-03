@@ -2,7 +2,7 @@
 
 **Datum:** 2026-06-04
 **Status:** Approved
-**Version:** v0.1.3
+**Version:** v0.1.5
 
 ## Problem & Ziel
 
@@ -26,7 +26,6 @@ und können sich mit einem Klick auf die Warteliste setzen lassen.
 **Out of Scope (später)**
 - Die eigentliche Community-Plattform
 - Eigenes Formular-Backend (Zugangsanfrage läuft extern über Tally)
-- Open-Graph-Bild (Follow-up)
 - Mehrsprachigkeit / i18n
 
 ## Architektur
@@ -101,7 +100,11 @@ Dateien brächte keinen Nutzen.
   Cookielos, datensparsam, DSGVO-freundlich. Lädt `async` und beeinflusst den Inhalt nicht.
 - **Barrierefreiheit:** `@media (prefers-reduced-motion: reduce)` schaltet Regenbogen-Flow,
   Cursor-Blinken und Slogan-Rotation ab (statischer Zustand).
-- **SEO/Social:** `<title>`, `meta description`, Open-Graph- und Twitter-Card-Tags.
+- **SEO/Social:** `<title>`, `meta description`, Open-Graph- und Twitter-Card-Tags inkl.
+  **Social-Media-Card** (`og:image` → `og-card.png`, 1200×630, `twitter:card=summary_large_image`),
+  damit beim Teilen das ultrathink-Branding als Vorschau erscheint statt eines beliebig
+  gewählten Seitenbilds. Die Card wird aus `og-card.html` (gleiche `wordmark.svg`/Gradient wie
+  die Seite) per Playwright gerendert.
 - **Responsiv:** Wordmark skaliert per `clamp()`/`vw`; auf schmalen Screens horizontal
   scrollbar statt umgebrochen (ASCII-Art darf nicht umbrechen).
 
@@ -117,6 +120,8 @@ Dateien brächte keinen Nutzen.
 |---|---|
 | `index.html` | Die komplette Seite (HTML + inline CSS + minimal JS) |
 | `wordmark.svg` | Pixelgenaue SVG-Maske des „ultrathink"-Schriftzugs (DOS Rebel, ~6 KB) |
+| `og-card.html` | Vorlage der Social-Media-Card (1200×630), gerendert zu `og-card.png` |
+| `og-card.png` | Social-Media-/Open-Graph-Vorschaubild (1200×630) |
 | `avatars/*.jpg` | Selbst-gehostete Founder-Avatare (Stephan, Ralf, Ingo, Uwe; 100×100) |
 | `CNAME` | Custom-Domain für GitHub Pages |
 | `favicon.svg` | Inline-SVG-Favicon (kleiner Regenbogen-Block) |
