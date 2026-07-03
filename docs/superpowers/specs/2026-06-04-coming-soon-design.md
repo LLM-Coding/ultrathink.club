@@ -2,7 +2,7 @@
 
 **Datum:** 2026-06-04
 **Status:** Approved
-**Version:** v0.1.5
+**Version:** v0.1.6
 
 ## Problem & Ziel
 
@@ -97,15 +97,24 @@ Dateien brächte keinen Nutzen.
      Umsetzung als feste UTC-Zeitstempel je Karte (`data-unlock`); ein **synchrones** Inline-Skript
      (direkt nach der Sektion, gegen FOUC) blendet noch nicht fällige Karten aus, verbirgt die ganze
      Sektion solange keine fällig ist. Zeitzonensicher via `Date.now()`-Vergleich.
-   - **Static-First:** Alle vier Karten stehen **im HTML** und verlinken auf YouTube — ohne JS ist
-     die Sektion voll sichtbar (Fallback), JS steuert nur Sichtbarkeit und Inline-Play.
-   - **DSGVO-Klick-Facade:** Karte zeigt ein **selbst-gehostetes** Thumbnail (`talks/*.jpg`,
-     YouTube maxres, 16:9); erst beim Klick wird ein `youtube-nocookie.com`-iframe eingesetzt —
-     kein Drittanbieter-Request/Cookie beim Seitenaufruf.
-   - **Deep-Link-Anker** je Person (`#stephan`, `#ralf`, `#ingo`, `#uwe`), damit die
-     wöchentlichen LinkedIn-Posts direkt auf das jeweilige Video zeigen können.
+   - **Static-First:** Alle vier Karten stehen **im HTML**; ohne JS ist die Sektion voll sichtbar
+     (Fallback), JS steuert nur die zeitgesteuerte Sichtbarkeit.
+   - **Karte → Unterseite:** Jede Karte ist ein einfacher Link auf ihre **Talk-Unterseite**
+     (`talks/<name>.html`) mit Video, Zusammenfassung, Key-Takeaways, Zitaten und (Roh-)Transkript.
+     Kein Inline-Play mehr auf der Startseite.
 
-6. **Footer**
+6. **Talk-Unterseiten (`talks/<name>.html`)**
+   - Eigene statische Seite je Founder, gemeinsames `talks/talk.css` + `talks/talk.js` (DRY).
+   - **DSGVO-Klick-Facade** für das Video: selbst-gehostetes Thumbnail (`talks/*.jpg`, YouTube
+     maxres, 16:9); erst beim Klick wird ein `youtube-nocookie.com`-iframe geladen. Ohne JS ist
+     die Facade ein normaler Link auf YouTube.
+   - **Inhalt (SEO-Text):** „Worum geht's" (Zusammenfassung), Key-Takeaways, Zitate, sowie das
+     **Volltranskript** (zunächst automatisch aus YouTube-Untertiteln, als `<details>` und als
+     Rohfassung markiert; eine sprecher-getrennte Fassung folgt).
+   - Quelle der Transkripte: `yt-dlp` (deutsche Auto-Untertitel), paragraphiert und HTML-escaped.
+   - Back-Link zur Startseite, `canonical`, eigene OG-Tags (Talk-Thumbnail als `og:image`).
+
+7. **Footer**
    - Versionsnummer (`v0.1.0`).
    - Disclaimer „Not affiliated with Anthropic" (mindert Verwechslungs-/Affiliation-Risiko,
      siehe Markenrecherche unten).
@@ -143,6 +152,8 @@ Dateien brächte keinen Nutzen.
 | `og-card.png` | Social-Media-/Open-Graph-Vorschaubild (1200×630) |
 | `avatars/*.jpg` | Selbst-gehostete Founder-Avatare (Stephan, Ralf, Ingo, Uwe; 100×100) |
 | `talks/*.jpg` | Selbst-gehostete YouTube-Thumbnails der HMZE-Talks (maxres, 16:9) |
+| `talks/<name>.html` | Talk-Unterseiten (Stephan voll; Ralf/Ingo/Uwe zunächst Stub) |
+| `talks/talk.css`, `talks/talk.js` | Geteilte Styles + Video-Facade-Skript der Unterseiten |
 | `CNAME` | Custom-Domain für GitHub Pages |
 | `favicon.svg` | Inline-SVG-Favicon (kleiner Regenbogen-Block) |
 | `.gitignore` | ignoriert `.superpowers/`, `.playwright-cli/` |

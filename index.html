@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- ultrathink.club — coming soon — v0.1.5 -->
+<!-- ultrathink.club — coming soon — v0.1.6 -->
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -141,7 +141,6 @@
       transition:transform .14s;
     }
     .talk:hover .talk-thumb::after, .talk:focus-visible .talk-thumb::after{transform:translate(-50%,-50%) scale(1.08)}
-    .talk-frame{width:100%; aspect-ratio:16/9; border:0; border-radius:10px; display:block}
     .talk-name{font-size:12px; line-height:1.4; color:var(--white)}
     .talk-name .role{color:var(--dim); font-size:11px}
 
@@ -210,28 +209,29 @@
   </section>
 
   <!-- Founder talks (HMZE podcast), one revealed each Friday 08:00 Europe/Berlin
-       (= 06:00 UTC in CEST). All four are in the static HTML and linked to YouTube;
-       the inline script below hides the not-yet-due ones. data-unlock is UTC. -->
+       (= 06:00 UTC in CEST). Each card is a plain link to its subpage (talks/<name>.html,
+       video + summary + transcript). All four are in the static HTML; the inline script
+       below hides the not-yet-due ones. data-unlock is UTC. -->
   <section class="talks" id="talks" aria-label="Im Gespräch — HMZE Podcast">
     <div class="talks-label">·· im gespräch · HMZE Podcast ··</div>
     <ul class="talks-grid">
       <li class="talk-item" id="stephan" data-unlock="2026-07-03T06:00:00Z">
-        <a class="talk" href="https://www.youtube.com/watch?v=R1iFMEkD_j4" data-yt="R1iFMEkD_j4" data-name="Stephan Schmidt" target="_blank" rel="noopener">
+        <a class="talk" href="talks/stephan.html">
           <span class="talk-thumb" style="background-image:url('talks/stephan.jpg')"></span>
           <span class="talk-name">Stephan Schmidt<br><span class="role">im HMZE Podcast</span></span></a>
       </li>
       <li class="talk-item" id="ralf" data-unlock="2026-07-10T06:00:00Z">
-        <a class="talk" href="https://www.youtube.com/watch?v=rQj-B3VTx48" data-yt="rQj-B3VTx48" data-name="Ralf D. Müller" target="_blank" rel="noopener">
+        <a class="talk" href="talks/ralf.html">
           <span class="talk-thumb" style="background-image:url('talks/ralf.jpg')"></span>
           <span class="talk-name">Ralf D. Müller<br><span class="role">im HMZE Podcast</span></span></a>
       </li>
       <li class="talk-item" id="ingo" data-unlock="2026-07-17T06:00:00Z">
-        <a class="talk" href="https://www.youtube.com/watch?v=eyvs7deP9CU" data-yt="eyvs7deP9CU" data-name="Ingo Eichhorst" target="_blank" rel="noopener">
+        <a class="talk" href="talks/ingo.html">
           <span class="talk-thumb" style="background-image:url('talks/ingo.jpg')"></span>
           <span class="talk-name">Ingo Eichhorst<br><span class="role">im HMZE Podcast</span></span></a>
       </li>
       <li class="talk-item" id="uwe" data-unlock="2026-07-24T06:00:00Z">
-        <a class="talk" href="https://www.youtube.com/watch?v=uhlc-7qFpU8" data-yt="uhlc-7qFpU8" data-name="Uwe Franke" target="_blank" rel="noopener">
+        <a class="talk" href="talks/uwe.html">
           <span class="talk-thumb" style="background-image:url('talks/uwe.jpg')"></span>
           <span class="talk-name">Uwe Franke<br><span class="role">im HMZE Podcast</span></span></a>
       </li>
@@ -253,7 +253,7 @@
   </script>
 
   <footer>
-    <span>v0.1.5</span>
+    <span>v0.1.6</span>
     <span>Not affiliated with Anthropic · © 2026 ultrathink.club</span>
   </footer>
 
@@ -292,26 +292,6 @@
         var t = items[i]; items[i] = items[j]; items[j] = t;
       }
       items.forEach(function (li) { row.appendChild(li); });
-    })();
-
-    // Progressive enhancement: click a talk to play it inline via a privacy-friendly
-    // youtube-nocookie iframe (loaded only on click). Without JS the link opens YouTube.
-    (function () {
-      var section = document.getElementById('talks');
-      if (!section) return;
-      section.addEventListener('click', function (e) {
-        var a = e.target.closest('.talk');
-        if (!a || a.dataset.playing) return;
-        e.preventDefault();
-        a.dataset.playing = '1';
-        var frame = document.createElement('iframe');
-        frame.className = 'talk-frame';
-        frame.src = 'https://www.youtube-nocookie.com/embed/' + a.getAttribute('data-yt') + '?autoplay=1&rel=0';
-        frame.title = a.getAttribute('data-name') + ' im HMZE Podcast';
-        frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-        frame.setAttribute('allowfullscreen', '');
-        a.querySelector('.talk-thumb').replaceWith(frame);
-      });
     })();
   </script>
 
