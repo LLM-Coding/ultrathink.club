@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!-- LinkedIn company logo (400x400). Rendered 2x -> 800x800 via Playwright.
+     Builds on favicon.svg: dark rounded tile, rainbow ring, rainbow "u". -->
+<html lang="en"><head><meta charset="utf-8"><style>
+  *{margin:0; box-sizing:border-box}
+  html,body{width:400px; height:400px}
+  #logo{
+    width:400px; height:400px;
+    background:radial-gradient(300px 300px at 50% 45%,#111926 0%,#0a0e14 72%);
+    display:flex; align-items:center; justify-content:center;
+    font-family:ui-monospace,"JetBrains Mono","Fira Code",Consolas,monospace;
+  }
+  .ring{
+    width:340px; height:340px; border-radius:78px; padding:8px;
+    background:linear-gradient(135deg,#ff5f56,#ff8e3c,#ffbd2e,#f7e463,#3fb950,#39c5cf,#58a6ff,#a371f7);
+    box-shadow:0 0 46px rgba(163,113,247,.28);
+  }
+  .tile{
+    width:100%; height:100%; border-radius:70px; background:#0a0e14;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .u{
+    font-weight:700; font-size:256px; line-height:1; transform:translateY(-8px);
+    background:linear-gradient(135deg,#ff5f56,#ff8e3c,#ffbd2e,#f7e463,#3fb950,#39c5cf,#58a6ff,#a371f7);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+</style></head><body>
+  <div id="logo"><div class="ring"><div class="tile"><span class="u">u</span></div></div></div>
+</body></html>
