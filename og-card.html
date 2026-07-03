@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!-- Source for the social-media / Open Graph card (og-card.png), rendered at 1200x630
+     via Playwright. Reuses the site's wordmark.svg mask + rainbow gradient (static,
+     no animation) so the card matches the homepage exactly. Regenerate: serve the repo
+     and screenshot #card at 1200x630. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <style>
+    *{margin:0; box-sizing:border-box}
+    html,body{width:1200px; height:630px}
+    #card{
+      width:1200px; height:630px;
+      background:radial-gradient(820px 500px at 50% 42%,#111926 0%,#0a0e14 72%);
+      font-family:ui-monospace,"JetBrains Mono","Fira Code",Consolas,monospace;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+    }
+    .art{width:860px; display:flex; flex-direction:column; align-items:center}
+    .wordmark{
+      width:860px; aspect-ratio:576 / 80;
+      background:linear-gradient(90deg,#ff5f56,#ff8e3c,#ffbd2e,#f7e463,#3fb950,#39c5cf,#58a6ff,#a371f7,#ff5f56);
+      background-size:200% auto; background-position:26% 50%;
+      -webkit-mask:url("wordmark.svg") center / contain no-repeat;
+              mask:url("wordmark.svg") center / contain no-repeat;
+      filter:drop-shadow(0 0 30px rgba(163,113,247,.22));
+    }
+    .suffix{
+      align-self:flex-end; margin-right:6px; margin-top:8px;
+      font-family:"Courier New",ui-monospace,Consolas,monospace; font-weight:700;
+      color:#e6edf3; letter-spacing:1px; font-size:56px;
+    }
+    .suffix .dot{color:#3fb950}
+    .tagline{
+      margin-top:52px; font-size:27px; letter-spacing:1px; color:#c9d1d9;
+    }
+    .tagline .p{color:#3fb950}
+  </style>
+</head>
+<body>
+  <div id="card">
+    <div class="art">
+      <div class="wordmark"></div>
+      <div class="suffix"><span class="dot">.</span>club</div>
+    </div>
+    <div class="tagline"><span class="p">~$</span> an AI think-tank community</div>
+  </div>
+</body>
+</html>
