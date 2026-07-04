@@ -2,7 +2,7 @@
 
 **Datum:** 2026-06-04
 **Status:** Approved
-**Version:** v0.1.6
+**Version:** v0.1.9
 
 ## Problem & Ziel
 
@@ -152,7 +152,7 @@ Dateien brächte keinen Nutzen.
 | `og-card.png` | Social-Media-/Open-Graph-Vorschaubild (1200×630) |
 | `avatars/*.jpg` | Selbst-gehostete Founder-Avatare (Stephan, Ralf, Ingo, Uwe; 100×100) |
 | `talks/*.jpg` | Selbst-gehostete YouTube-Thumbnails der HMZE-Talks (maxres, 16:9) |
-| `talks/<name>.html` | Talk-Unterseiten (Stephan voll; Ralf/Ingo/Uwe zunächst Stub) |
+| `talks/<name>.html` | Talk-Unterseiten (alle vier voll: Transkript + Zusammenfassung + Takeaways) |
 | `talks/talk.css`, `talks/talk.js` | Geteilte Styles + Video-Facade-Skript der Unterseiten |
 | `CNAME` | Custom-Domain für GitHub Pages |
 | `favicon.svg` | Inline-SVG-Favicon (kleiner Regenbogen-Block) |
