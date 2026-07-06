@@ -2,7 +2,7 @@
 
 **Datum:** 2026-06-04
 **Status:** Approved
-**Version:** v0.1.10
+**Version:** v0.1.11
 
 ## Problem & Ziel
 
