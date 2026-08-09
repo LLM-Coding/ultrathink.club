@@ -116,8 +116,7 @@ Dateien brächte keinen Nutzen.
 
 7. **Footer**
    - Versionsnummer (`v0.1.0`).
-   - Disclaimer „Not affiliated with Anthropic" (mindert Verwechslungs-/Affiliation-Risiko,
-     siehe Markenrecherche unten).
+   - Disclaimer „Not affiliated with Anthropic" (mindert Verwechslungs-/Affiliation-Risiko).
    - © 2026 ultrathink.club.
    - **Positionierung:** `margin-top:auto` statt `position:fixed` — bleibt auf kurzer Seite
      (Talks verborgen) unten, fließt auf langer Seite hinter den Inhalt, ohne ihn zu überlagern.
@@ -166,12 +165,6 @@ Version im Footer **und** als HTML-Kommentar sichtbar, Start bei `v0.1.0`.
 ## Offene Punkte / Abhängigkeiten
 
 - **Tally-Formular:** Verdrahtet (`WOqr7j`, Modal via `embed.js`). Erledigt.
-- **LinkedIn-Vanity-URLs:** Aktuell die member-URN-Links (`/in/ACoAA…`); falls die Founder
-  saubere Vanity-URLs haben, diese eintragen.
-- **GoatCounter-Konto:** Muss mit Code `ultrathink` existieren, sonst zählt das Snippet ins Leere.
-- **Markenrecherche (vor echtem Launch, nicht für diese Seite):**
-  „ultrathink" wird von mehreren Dritten genutzt (u.a. ultrathink.de — Hamburg, KI, B2B-SaaS;
-  tryultrathink.com; ultrathinksolutions.com; Anthropic/Claude-Code-Keyword). Keine
-  eingetragene Wortmarke per Websuche gefunden, aber **DPMA/EUIPO-Registerprüfung** (Klassen
-  35/41/42) und ggf. anwaltliche Beratung vor kommerziellem Launch empfohlen. Positionierung
-  klar als *Community/Club* (nicht Produkt) und Anthropic-Disclaimer mindern das Risiko.
+- **LinkedIn-Vanity-URLs:** Eingetragen (`/in/stephanjschmidt`, `/in/rdmueller`,
+  `/in/ingo-eichhorst`, `/in/uwe-franke`), seit v0.1.10. Erledigt.
+- **GoatCounter-Konto:** Existiert unter dem Code `ultrathink`, Zählung läuft. Erledigt.

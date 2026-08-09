@@ -261,8 +261,7 @@ der PR gemergt wird. Sonst zeigt die Einbettung Besuchern ein privates Video.
 - [ ] Links auf Website, Company-Page und die vier LinkedIn-Profile
 - [ ] **Musikcredit** — bei Folge 1: Chris Hülsbeck, Summer of Synth (Royalty-Free Music
       Vol. 2)
-- [ ] Disclaimer: nicht-kommerzielle Community, keine Verbindung zu Anthropic oder zur
-      ultrathink GmbH
+- [ ] Disclaimer: nicht-kommerzielle Community, keine Verbindung zu Anthropic oder anderen
 - [ ] In die Playlist einsortieren
 
 **Keine harten Zeilenumbrüche im Beschreibungstext.** YouTube bricht selbst um; wer bei
