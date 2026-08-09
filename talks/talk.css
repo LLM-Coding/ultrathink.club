@@ -40,6 +40,16 @@ h1{font-size:clamp(21px,3.6vw,30px); color:var(--white); line-height:1.28; margi
 .video:hover::after, .video:focus-visible::after{transform:translate(-50%,-50%) scale(1.07)}
 .video-frame{width:100%; aspect-ratio:16/9; border:0; border-radius:12px; display:block}
 
+/* Hinweis auf der Fassade: Der Klick IST die Einwilligung — dafür muss vorher
+   dastehen, was er auslöst. Liegt im <a>, wird also mitgeklickt, und verschwindet
+   mit der Fassade, sobald der Player geladen ist. */
+.video-note{
+  position:absolute; left:0; right:0; bottom:0; padding:9px 12px;
+  background:linear-gradient(to top, rgba(10,14,20,.92), rgba(10,14,20,.72) 60%, rgba(10,14,20,0));
+  color:#c9d1d9; font-size:12px; line-height:1.4; text-align:center;
+}
+.video-note b{color:var(--white); font-weight:600}
+
 h2{color:var(--white); font-size:17px; letter-spacing:.5px; margin:40px 0 12px}
 .lead{font-size:16px; color:var(--txt); margin:0}
 
