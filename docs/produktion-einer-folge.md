@@ -111,10 +111,34 @@ ffmpeg -i folge-N.mp3 -af ebur128=peak=true -f null -
 3. Der Limiter kostet rund 1 LU Lautheit. Der Zielwert der Normalisierung muss also höher
    liegen als der Zielwert des Ergebnisses (`I=-14.5` für ein Ergebnis um −16).
 
-**Zielwerte:** Podcast −16 LUFS (±1), Spitzen unter −1,5 dBTP. Für YouTube −14 LUFS, dann
-aber die Tonspur in die MP4 zurückmuxen (Videospur mit `-c:v copy` kopieren) und neu
-hochladen — YouTube lässt die Datei nicht ersetzen, das Video bekommt eine neue ID. Also
-vor der Veröffentlichung erledigen.
+**Zielwerte:** Podcast −16 LUFS (±1), YouTube −14 LUFS, Spitzen jeweils unter −1,5 dBTP.
+
+### Die Tonspur des Videos ist damit noch nicht erledigt
+
+Der Schritt oben erzeugt die MP3 für den Podcast. **Das MP4 hat davon nichts** — es liegt
+weiter bei den rund −20 LUFS aus Zoom. Das ist in Folge 1 beinahe untergegangen.
+
+Die Videospur wird dabei nur kopiert, es wird also nichts neu gerendert:
+
+```bash
+ffmpeg -y -i "$SRC" -c:v copy \
+  -af "loudnorm=I=-12.5:TP=-1.5:LRA=11:measured_I=…:measured_TP=…:measured_LRA=…:measured_thresh=…:offset=…,\
+aresample=48000,alimiter=limit=0.708:attack=5:release=50:level=0" \
+  -c:a aac -b:a 192k -ar 48000 folge-N-ton.mp4
+```
+
+Der Zielwert steht auf −12,5, nicht −14: Der Limiter frisst rund anderthalb LU, und das
+Ergebnis soll bei −14 landen. Immer nachmessen.
+
+> **Vor dem ersten Hochladen erledigen.** YouTube lässt die Videodatei nicht ersetzen. Wer
+> nachbessern will, muss neu hochladen, und das Video bekommt eine **neue ID**. Solange
+> nichts veröffentlicht ist, kostet das nur ein Suchen-und-Ersetzen — in Folge 1 steckte
+> die ID an 74 Stellen der Unterseite, davon 46 Transkript-Zeitmarken. Nach der
+> Veröffentlichung bricht es jeden geteilten Link.
+
+- [ ] Tonspur korrigiert, bevor das Video das erste Mal hochgeladen wird
+- [ ] Nach einem Neu-Upload die Video-ID in Unterseite, Beschreibung und Social-Texten
+      nachziehen
 
 ---
 
