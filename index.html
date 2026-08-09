@@ -68,11 +68,11 @@
     .suffix{
       margin-top:6px; align-self:flex-end; margin-right:clamp(8px,4vw,46px);
       font-family:"Courier New",ui-monospace,Consolas,monospace; font-weight:700;
-      color:var(--white); letter-spacing:1px; font-size:clamp(24px,5vw,52px);
+      color:var(--white); letter-spacing:1px; font-size:clamp(1.5rem,5vw,3.25rem);
     }
     .suffix .dot{color:var(--grn)}
 
-    .line{margin-top:34px; font-size:clamp(14px,2.2vw,18px); color:var(--dim); min-height:1.4em}
+    .line{margin-top:34px; font-size:clamp(0.875rem,2.2vw,1.125rem); color:var(--dim); min-height:1.4em}
     .line .p{color:var(--grn)}
     .line .slogan{color:var(--white)}
     .cursor{
@@ -82,22 +82,22 @@
 
     .cta{margin-top:42px}
     .btn{
-      display:inline-block; font:inherit; font-size:16px; font-weight:700;
+      display:inline-block; font:inherit; font-size:1rem; font-weight:700;
       color:#0a0e14; background:var(--grn); text-decoration:none;
       padding:13px 26px; border-radius:8px;
       box-shadow:0 6px 20px rgba(63,185,80,.25);
       transition:transform .12s, box-shadow .12s;
     }
     .btn:hover{transform:translateY(-2px); box-shadow:0 10px 28px rgba(63,185,80,.4)}
-    .hint{margin-top:14px; font-size:14px; color:var(--dim)}
+    .hint{margin-top:14px; font-size:0.875rem; color:var(--dim)}
 
     /* Founding members — minimal avatar row. Avatars are self-hosted (avatars/*.jpg),
        not hotlinked from LinkedIn: the source URLs are signed and expire, and self-hosting
        avoids a third-party request per visit (GDPR / static-first). */
     .founders{margin-top:40px; display:flex; flex-direction:column; align-items:center; gap:16px}
-    .founders-label{font-size:13px; letter-spacing:2px; color:var(--dim)}
+    .founders-label{font-size:0.8125rem; letter-spacing:2px; color:var(--dim)}
     .founders-row{list-style:none; display:flex; flex-wrap:wrap; justify-content:center; gap:18px; margin:0; padding:0}
-    .founder{display:flex; flex-direction:column; align-items:center; gap:9px; width:108px; text-decoration:none; outline:none}
+    .founder{display:flex; flex-direction:column; align-items:center; gap:9px; width:6.75rem; text-decoration:none; outline:none}
     .founder img{
       width:52px; height:52px; border-radius:50%; object-fit:cover;
       border:1.5px solid rgba(255,255,255,.14); filter:grayscale(.35);
@@ -109,12 +109,12 @@
     /* name sits BELOW the avatar in a reserved slot (no layout shift, no overlap of
        other text), revealed on hover / keyboard focus */
     .fname{
-      font-size:13px; line-height:1.3; min-height:1.3em; white-space:nowrap;
+      font-size:0.8125rem; line-height:1.3; min-height:1.3em; white-space:nowrap;
       color:var(--white); opacity:0; transition:opacity .14s;
     }
     .founder:hover .fname, .founder:focus-visible .fname{opacity:1}
     /* follow link to the LinkedIn organisation, below the avatar row */
-    .founders-follow{font-size:14px; letter-spacing:.5px; color:var(--dim); text-decoration:none}
+    .founders-follow{font-size:0.875rem; letter-spacing:.5px; color:var(--dim); text-decoration:none}
     .founders-follow:hover, .founders-follow:focus-visible{color:var(--grn)}
 
     /* "ultrathink.breakfast.club" — the club's own format. Reuses the .talks* styles
@@ -129,7 +129,7 @@
        for a youtube-nocookie iframe (no third-party request until the click). */
     .talks{margin-top:46px; width:100%; max-width:722px; display:flex; flex-direction:column; align-items:center; gap:18px}
     .talks[hidden]{display:none}
-    .talks-label{font-size:13px; letter-spacing:2px; color:var(--dim)}
+    .talks-label{font-size:0.8125rem; letter-spacing:2px; color:var(--dim)}
     .talks-grid{list-style:none; display:flex; flex-wrap:wrap; justify-content:center; gap:18px; margin:0; padding:0; width:100%}
     .talk-item{width:min(100%,332px)}
     .talk-item[hidden]{display:none}
@@ -149,14 +149,14 @@
       transition:transform .14s;
     }
     .talk:hover .talk-thumb::after, .talk:focus-visible .talk-thumb::after{transform:translate(-50%,-50%) scale(1.08)}
-    .talk-name{font-size:15px; line-height:1.4; color:var(--white)}
-    .talk-name .role{color:var(--dim); font-size:13px}
+    .talk-name{font-size:0.9375rem; line-height:1.4; color:var(--white)}
+    .talk-name .role{color:var(--dim); font-size:0.8125rem}
 
     /* margin-top:auto keeps the footer pinned to the bottom on a short page (talks
        hidden), yet lets it flow after the content on a tall one — no fixed overlap. */
     footer{
       margin-top:auto; width:100%; max-width:1000px;
-      padding:22px 16px 14px; font-size:13px; color:#7d8590;
+      padding:22px 16px 14px; font-size:0.8125rem; color:#7d8590;
       display:flex; justify-content:space-between; gap:8px;
     }
     footer a{color:#8b949e; text-decoration:none}
