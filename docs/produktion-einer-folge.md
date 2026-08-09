@@ -265,6 +265,11 @@ der PR gemergt wird. Sonst zeigt die Einbettung Besuchern ein privates Video.
       ultrathink GmbH
 - [ ] In die Playlist einsortieren
 
+**Keine harten Zeilenumbrüche im Beschreibungstext.** YouTube bricht selbst um; wer bei
+80 oder 90 Zeichen von Hand umbricht, bekommt auf schmalen Fenstern zerhackte Zeilen. Ein
+Absatz ist eine Zeile, Absätze werden durch Leerzeilen getrennt. Dasselbe gilt für den
+LinkedIn-Post.
+
 ---
 
 ## 11. LinkedIn
