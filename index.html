@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- ultrathink.club — coming soon — v0.1.11 -->
+<!-- ultrathink.club — coming soon — v0.2.0 -->
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -117,6 +117,11 @@
     .founders-follow{font-size:11px; letter-spacing:.5px; color:var(--dim); text-decoration:none}
     .founders-follow:hover, .founders-follow:focus-visible{color:var(--grn)}
 
+    /* "ultrathink.breakfast.club" — the club's own format. Reuses the .talks* styles
+       below; .episode-item only widens the card so a single episode does not look
+       lost in a grid built for four. */
+    .episode-item{width:min(100%,470px)}
+
     /* "Im Gespräch" — founder talks from the HMZE podcast, revealed one per Friday.
        All four cards live in the static HTML (no-JS: all visible, each linked to
        YouTube). A synchronous inline script hides the not-yet-due ones by their
@@ -211,6 +216,20 @@
        target="_blank" rel="noopener">↳ Folge uns auf LinkedIn ↗</a>
   </section>
 
+  <!-- ultrathink.breakfast.club — the club's own format. One card per episode, each a
+       plain link to its subpage (breakfast/folge-N.html: video, summary, transcript).
+       Static HTML, no JS: unlike the talks below, nothing here is time-gated. -->
+  <section class="talks episodes" aria-label="ultrathink.breakfast.club">
+    <div class="talks-label">·· ultrathink.breakfast.club ··</div>
+    <ul class="talks-grid">
+      <li class="talk-item episode-item">
+        <a class="talk" href="breakfast/folge-1.html">
+          <span class="talk-thumb" style="background-image:url('breakfast/folge-1.jpg')"></span>
+          <span class="talk-name">Folge 1 — „Token Efficiency“<br><span class="role">Uwe, Ralf, Ingo &amp; Stephan · 37 min</span></span></a>
+      </li>
+    </ul>
+  </section>
+
   <!-- Founder talks (HMZE podcast), one revealed each Friday 08:00 Europe/Berlin
        (= 06:00 UTC in CEST). Each card is a plain link to its subpage (talks/<name>.html,
        video + summary + transcript). All four are in the static HTML; the inline script
@@ -256,7 +275,7 @@
   </script>
 
   <footer>
-    <span>v0.1.11</span>
+    <span>v0.2.0</span>
     <span>Not affiliated with Anthropic · © 2026 ultrathink.club</span>
   </footer>
 
