@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!-- Source for the podcast cover art (podcast-cover.png), the artwork every directory
+     shows next to the show. Built like og-card.html — same wordmark.svg mask, same
+     rainbow gradient, same background — so the feed matches the site.
+
+     Square and 3000x3000 because that is Apple Podcasts' maximum (minimum 1400, RGB,
+     JPEG or PNG); Spotify and the rest accept the same file. Laid out at 3000 CSS px
+     directly rather than 1500 at deviceScaleFactor:2, so a plain screenshot suffices.
+
+     Deliberately sparse: directories render this at ~55 px in a list, where anything
+     smaller than the wordmark turns to mush. Regenerate: serve the repo and screenshot
+     #cover. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <style>
+    *{margin:0; box-sizing:border-box}
+    html,body{width:3000px; height:3000px}
+    #cover{
+      width:3000px; height:3000px;
+      background:radial-gradient(2050px 1250px at 50% 44%,#111926 0%,#0a0e14 72%);
+      font-family:ui-monospace,"JetBrains Mono","Fira Code",Consolas,monospace;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+    }
+    .art{width:2640px; display:flex; flex-direction:column; align-items:center}
+    .wordmark{
+      width:2640px; aspect-ratio:576 / 80;
+      background:linear-gradient(90deg,#ff5f56,#ff8e3c,#ffbd2e,#f7e463,#3fb950,#39c5cf,#58a6ff,#a371f7,#ff5f56);
+      background-size:200% auto; background-position:26% 50%;
+      -webkit-mask:url("wordmark.svg") center / contain no-repeat;
+              mask:url("wordmark.svg") center / contain no-repeat;
+      filter:drop-shadow(0 0 75px rgba(163,113,247,.22));
+    }
+    .suffix{
+      align-self:flex-end; margin-right:14px; margin-top:26px;
+      font-family:"Courier New",ui-monospace,Consolas,monospace; font-weight:700;
+      color:#e6edf3; letter-spacing:2px; font-size:150px;
+    }
+    .suffix .dot{color:#3fb950}
+    /* Terminal window — the same motif the episode intro uses, so cover and video read
+       as one show. It also gives the square something to hold: a wide wordmark alone
+       leaves the top and bottom thirds empty. */
+    .term{
+      width:2640px; margin-top:150px; border-radius:44px; overflow:hidden;
+      background:#0d131c; border:2px solid rgba(255,255,255,.09);
+    }
+    .bar{
+      display:flex; align-items:center; gap:26px; padding:34px 44px;
+      background:#131b27; border-bottom:2px solid rgba(255,255,255,.06);
+    }
+    .dots{display:flex; gap:22px}
+    .dots i{width:34px; height:34px; border-radius:50%; display:block}
+    .body{padding:200px 70px 220px; font-size:104px; color:#e6edf3; letter-spacing:2px}
+    .body .p{color:#3fb950; margin-right:28px}
+    .cursor{display:inline-block; width:52px; height:96px; background:#3fb950;
+            vertical-align:-14px; margin-left:14px}
+    .rule{
+      width:2640px; height:16px;
+      background:linear-gradient(90deg,#a371f7,#ff5f56,#ff8e3c,#ffbd2e,#f7e463,#3fb950);
+    }
+  </style>
+</head>
+<body>
+  <div id="cover">
+    <div class="art">
+      <div class="wordmark"></div>
+      <div class="suffix"><span class="dot">.</span>breakfast<span class="dot">.</span>club</div>
+    </div>
+    <div class="term">
+      <div class="bar">
+        <div class="dots"><i style="background:#ff5f56"></i><i style="background:#ffbd2e"></i><i style="background:#27c93f"></i></div>
+        <span style="font-size:44px; color:#6e7681">ultrathink@breakfast: ~</span>
+      </div>
+      <div class="body"><span class="p">&gt;</span>der Podcast<span class="cursor"></span></div>
+    </div>
+    <div class="rule"></div>
+  </div>
+</body>
+</html>
